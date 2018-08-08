@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">AccountingSD</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="reminder">週期提醒</string>
+    <string name="depositTarget">存款目標</string>
+    <string name="cateEdit">類別編輯</string>
+    <string name="account">帳戶</string>
+    <string name="statistics">財務分析</string>
+    <string name="record_title">花費項目</string>
+    <string name="cost">花費金額</string>
+    <string name="type">花費類別</string>
+    <string name="create_record">新增紀錄</string>
+    <string name="startDate"> 起始日期：</string>
+    <string name="clothes">衣服</string>
+    <string name="home_screen">主畫面</string>
+</resources>

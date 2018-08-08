@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home_screen"
+            android:icon="@drawable/ic_menu_reminders"
+            android:title="@string/home_screen" />
+        <item
+            android:id="@+id/nav_reminder"
+            android:icon="@drawable/ic_menu_reminders"
+            android:title="@string/reminder" />
+        <item
+            android:id="@+id/nav_depositTarget"
+            android:icon="@drawable/ic_menu_target"
+            android:title="@string/depositTarget" />
+        <item
+            android:id="@+id/nav_cateEdit"
+            android:icon="@drawable/ic_menu_categories"
+            android:title="@string/cateEdit" />
+
+        <item
+            android:id="@+id/nav_statistics"
+            android:icon="@drawable/ic_menu_statistics"
+            android:title="@string/statistics" />
+
+        <item
+            android:id="@+id/nav_account"
+            android:icon="@drawable/ic_menu_login"
+            android:title="@string/account" />
+    </group>
+</menu>
