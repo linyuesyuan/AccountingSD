@@ -62,12 +62,8 @@ public class reminderFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_reminder,container,false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.reminderRecyclerView);
-
+        getActivity().setTitle("週期提醒");
         fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
-
-        //populate recyclerview
-        //populaterecyclerView(filter);
-        //Log.d(TAG, "資料回傳到rootView");
         return rootView;
     }
 
@@ -80,7 +76,6 @@ public class reminderFragment extends BaseFragment {
         dbHelper = new ReminderDBHelper(getActivity());
         adapter = new ReminderAdapter(dbHelper.reminderList(filter), getActivity(), mRecyclerView);
         mRecyclerView.setAdapter(adapter);
-        Log.d(TAG, "資料已傳到adapter");
     }
 
 

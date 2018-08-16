@@ -1,27 +1,26 @@
 package com.example.tku.accountingsd.model;
 
-import java.util.WeakHashMap;
 
-public class Cate {
+public class Categories {
 
-    long id;
+    int id;
     String title;
-    String imageId;
+    //String imageId;
 
-    public Cate() {
+    public Categories() {
     }
 
-    public Cate(String title, String imageId) {
+    public Categories(String title) {
         this.title = title;
-        this.imageId = imageId;
+        //this.imageId = imageId;
     }
 
-    public long getId() {
-        return this.id;
+    public int getId(){
+        return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setId(int id){
+        this.id=id;
     }
 
     public String getTitle() {
@@ -31,7 +30,7 @@ public class Cate {
     public void setTitle(String title) {
         this.title = title;
     }
-
+/*
     public String getImageId() {
         return this.imageId;
     }
@@ -39,6 +38,8 @@ public class Cate {
     public void setImageId(String imageId) {
         this.imageId = imageId;
     }
-
-
+*/
 }
+
+
+

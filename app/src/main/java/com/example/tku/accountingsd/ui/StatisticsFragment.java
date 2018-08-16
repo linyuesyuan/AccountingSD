@@ -11,6 +11,11 @@ import android.view.ViewGroup;
 import com.example.tku.accountingsd.R;
 
 public class StatisticsFragment extends Fragment {
+
+    public StatisticsFragment(){
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -21,6 +26,6 @@ public class StatisticsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle("統計分析");
+        getActivity().setTitle("財務分析");
     }
 }

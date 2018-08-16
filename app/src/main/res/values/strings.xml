@@ -21,4 +21,17 @@
     <string name="startDate"> 起始日期：</string>
     <string name="clothes">衣服</string>
     <string name="home_screen">主畫面</string>
+
+    <!-- Predefined expense categories -->
+    <string name="cat_general">General</string>
+    <string name="cat_clothes">Clothes</string>
+    <string name="cat_entertainment">Entertainment</string>
+    <string name="cat_food">Food</string>
+    <string name="cat_health">Health</string>
+    <string name="cat_household">Household</string>
+    <string name="cat_hygiene">Hygiene</string>
+    <string name="cat_pets">Pets</string>
+    <string name="cat_presents">Presents</string>
+    <string name="cat_sports">Sports</string>
+    <string name="cat_transportation">Transportation</string>
 </resources>

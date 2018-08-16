@@ -28,7 +28,6 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView tvTitle;
-        public TextView tvDate;
         public TextView tvMoney;
         public TextView tvType;
         private CardView cardView;
@@ -39,7 +38,6 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
             super(v);
             layout = v;
             tvTitle = (TextView)v.findViewById(R.id.tvTitle);
-            tvDate = (TextView)v.findViewById(R.id.tvDate);
             tvMoney = (TextView)v.findViewById(R.id.tvMoney);
             tvType = (TextView)v.findViewById(R.id.tvType);
             cardView = (CardView)v.findViewById(R.id.cardView);
@@ -76,19 +74,18 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
     @Override
     public void onBindViewHolder(@NonNull NewRecordAdapter.ViewHolder holder, final int position) {
         final Record record = mRecordList.get(position);
-        holder.tvTitle.setText("花費項目： " + record.getTitle());
-        holder.tvDate.setText("日期： " + record.getDate());
-        holder.tvMoney.setText("金額： " + record.getMoney());
-        holder.tvType.setText("項目類別： " + record.getType());
+        holder.tvType.setText(record.getType() + " :");
+        holder.tvTitle.setText(record.getTitle());
+        holder.tvMoney.setText("$" + record.getMoney());
 
         //listen to single view layout click
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setTitle("Choose option");
-                builder.setMessage("Update or delete record?");
-                builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                builder.setTitle("請選擇");
+                builder.setMessage("更新或刪除?");
+                builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -97,7 +94,7 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
 
                     }
                 });
-                builder.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
+                builder.setNeutralButton("刪除", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         NewRecordDBHelper dbHelper = new NewRecordDBHelper(mContext);
@@ -110,7 +107,7 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
                         notifyDataSetChanged();
                     }
                 });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();

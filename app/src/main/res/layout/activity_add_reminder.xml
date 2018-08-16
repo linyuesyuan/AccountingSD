@@ -17,7 +17,7 @@
             android:id="@+id/etTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="enter title"
+            android:hint="輸入標題"
             android:inputType="textPersonName" />
 
         <LinearLayout
@@ -44,21 +44,21 @@
             android:id="@+id/etDateCycle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="enter date cycle"
-            android:inputType="textPersonName" />
+            android:hint="輸入循環天數"
+            android:inputType="number" />
 
         <EditText
             android:id="@+id/etMoney"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="enter money you expect pay"
-            android:inputType="textPersonName" />
+            android:hint="輸入預期支付金額"
+            android:inputType="number" />
 
         <Button
             android:id="@+id/btCreateReminder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Create Reminder"
+            android:text="建立提醒"
             />
     </LinearLayout>
 

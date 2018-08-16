@@ -9,17 +9,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 import com.example.tku.accountingsd.ui.StatisticsFragment;
 import com.example.tku.accountingsd.ui.account.accountActivity;
-import com.example.tku.accountingsd.ui.cateEdit.cateEditActivity;
-import com.example.tku.accountingsd.ui.depositTarget.depositTargetActivity;
+import com.example.tku.accountingsd.ui.categories.CategoryFragment;
 import com.example.tku.accountingsd.ui.depositTarget.depositTargetFragment;
 import com.example.tku.accountingsd.ui.homeScreen.homeScreenFragment;
-import com.example.tku.accountingsd.ui.newRecord.newRecordActivity;
-import com.example.tku.accountingsd.ui.reminders.reminderActivity;
 import com.example.tku.accountingsd.ui.reminders.reminderFragment;
 
 import java.lang.annotation.Retention;
@@ -124,8 +119,7 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_depositTarget) {
             getSupportFragmentManager().beginTransaction().replace(R.id.content_main,new depositTargetFragment()).commit();
         } else if (id == R.id.nav_cateEdit) {
-            intent.setClass(MainActivity.this, cateEditActivity.class);
-            startActivity(intent);
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, new CategoryFragment()).commit();
         } else if (id == R.id.nav_account) {
             intent.setClass(MainActivity.this, accountActivity.class);
             startActivity(intent);

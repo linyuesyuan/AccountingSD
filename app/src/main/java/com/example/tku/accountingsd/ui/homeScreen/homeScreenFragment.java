@@ -10,9 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.tku.accountingsd.MainActivity;
 import com.example.tku.accountingsd.R;
-import com.example.tku.accountingsd.ui.newRecord.newRecordActivity;
+import com.example.tku.accountingsd.ui.newRecord.expenseFragment;
 
 public class homeScreenFragment extends Fragment {
 
@@ -27,9 +26,7 @@ public class homeScreenFragment extends Fragment {
         newButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent();
-                i.setClass(getActivity(), newRecordActivity.class);
-                startActivityForResult(i, RQ_HOME_SCREEN);
+                getFragmentManager().beginTransaction().replace(R.id.content_main, new expenseFragment()).commit();
             }
         });
 
@@ -39,7 +36,7 @@ public class homeScreenFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        getActivity().setTitle("主頁");
     }
 
 

@@ -45,6 +45,15 @@
             android:hint="@string/type"
             android:inputType="textPersonName" />
 
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/category_choose_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp" />
+
         <Button
             android:id="@+id/btCreateRecord"
             android:layout_width="match_parent"

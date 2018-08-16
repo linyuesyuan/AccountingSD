@@ -38,7 +38,7 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 COLUMN_TITLE + " TEXT NOT NULL, " +
                 COLUMN_DATE + " TEXT NOT NULL, " +
-                COLUMN_MONEY + " TEXT NOT NULL, " +
+                COLUMN_MONEY + " INTEGER NOT NULL, " +
                 COLUMN_TYPE + " TEXT NOT NULL)"
         );
     }
@@ -86,7 +86,7 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
                 Record.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
                 Record.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
                 Record.setDate(cursor.getString(cursor.getColumnIndex(COLUMN_DATE)));
-                Record.setMoney(cursor.getString(cursor.getColumnIndex(COLUMN_MONEY)));
+                Record.setMoney(cursor.getInt(cursor.getColumnIndex(COLUMN_MONEY)));
                 Record.setType(cursor.getString(cursor.getColumnIndex(COLUMN_TYPE)));
                 recordLinkedList.add(Record);
             } while (cursor.moveToNext());
@@ -108,7 +108,7 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
 
             receivedRecord.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
             receivedRecord.setDate(cursor.getString(cursor.getColumnIndex(COLUMN_DATE)));
-            receivedRecord.setMoney(cursor.getString(cursor.getColumnIndex(COLUMN_MONEY)));
+            receivedRecord.setMoney(cursor.getInt(cursor.getColumnIndex(COLUMN_MONEY)));
             receivedRecord.setType(cursor.getString(cursor.getColumnIndex(COLUMN_TYPE)));
         }
         return receivedRecord;
