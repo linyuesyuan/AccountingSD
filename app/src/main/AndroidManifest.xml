@@ -19,12 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.reminders.reminderActivity" />
         <activity android:name=".ui.reminders.addReminderActivity" />
         <activity android:name=".ui.reminders.UpdateReminderActivity" />
         <activity android:name=".ui.depositTarget.depositTargetActivity" />
         <activity android:name=".ui.account.accountActivity" />
-        <activity android:name=".ui.newRecord.addNewRecordActivity" />
         <activity android:name=".ui.newRecord.UpdateRecordActivity"></activity>
     </application>
 

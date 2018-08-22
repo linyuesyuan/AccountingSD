@@ -5,10 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.v4.app.INotificationSideChannel;
 import android.widget.Toast;
 
 import com.example.tku.accountingsd.model.Record;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 COLUMN_TITLE + " TEXT NOT NULL, " +
                 COLUMN_DATE + " TEXT NOT NULL, " +
-                COLUMN_MONEY + " INTEGER NOT NULL, " +
+                COLUMN_MONEY + " REAL NOT NULL, " +
                 COLUMN_TYPE + " TEXT NOT NULL)"
         );
     }
@@ -64,11 +66,14 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
-    public List<Record> recordList(String filter) {
+    public List<Record> recordList(String filter, String currentDateString) {
         String query;
+        //SQLiteDatabase db = this.getWritableDatabase();
+        //Cursor cursor;
         if(filter.equals("")){
             //regular query
-            query = "SELECT  * FROM " + TABLE_NAME;
+            query = "SELECT  * FROM " + TABLE_NAME + " WHERE "+ COLUMN_DATE + " = '" + currentDateString + "'";
+            //cursor=db.rawQuery(TABLE_NAME,COLUMN_DATE,)
         }else{
             //filter results by filter option provided
             query = "SELECT  * FROM " + TABLE_NAME + " ORDER BY "+ filter;
@@ -86,7 +91,7 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
                 Record.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
                 Record.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
                 Record.setDate(cursor.getString(cursor.getColumnIndex(COLUMN_DATE)));
-                Record.setMoney(cursor.getInt(cursor.getColumnIndex(COLUMN_MONEY)));
+                Record.setMoney(cursor.getDouble(cursor.getColumnIndex(COLUMN_MONEY)));
                 Record.setType(cursor.getString(cursor.getColumnIndex(COLUMN_TYPE)));
                 recordLinkedList.add(Record);
             } while (cursor.moveToNext());
@@ -94,6 +99,27 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
 
 
         return recordLinkedList;
+    }
+
+    public List<Double> getSum(String currentDateString){
+        List<Double> expense = new ArrayList<Double>();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE "+ COLUMN_DATE + " = '" + currentDateString + "'";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);//selectQuery,selectedArguments
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                expense.add(cursor.getDouble(3));//adding 2nd column data
+            } while (cursor.moveToNext());
+        }
+        // closing connection
+        cursor.close();
+        db.close();
+
+        return expense;
     }
 
     /**Query only 1 record**/
@@ -108,7 +134,7 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
 
             receivedRecord.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
             receivedRecord.setDate(cursor.getString(cursor.getColumnIndex(COLUMN_DATE)));
-            receivedRecord.setMoney(cursor.getInt(cursor.getColumnIndex(COLUMN_MONEY)));
+            receivedRecord.setMoney(cursor.getDouble(cursor.getColumnIndex(COLUMN_MONEY)));
             receivedRecord.setType(cursor.getString(cursor.getColumnIndex(COLUMN_TYPE)));
         }
         return receivedRecord;
@@ -122,4 +148,5 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
         Toast.makeText(context, "Deleted successfully.", Toast.LENGTH_SHORT).show();
 
     }
+
 }

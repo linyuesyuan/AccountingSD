@@ -4,10 +4,10 @@ public class Record {
     long id;
     String title;
     String date;
-    int money;
+    Double money;
     String type;
 
-    public Record(String title, String date, int money, String type){
+    public Record(String title, String date, Double money, String type){
         this.title=title;
         this.date=date;
         this.money=money;
@@ -40,11 +40,11 @@ public class Record {
         this.date=date;
     }
 
-    public int getMoney(){
+    public Double getMoney(){
         return this.money;
     }
 
-    public void setMoney(int money){
+    public void setMoney(Double money){
         this.money=money;
     }
 

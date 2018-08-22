@@ -21,6 +21,7 @@ import com.example.tku.accountingsd.R;
 import com.example.tku.accountingsd.interfaces.IUserActionsMode;
 import com.example.tku.accountingsd.model.Reminder;
 import com.example.tku.accountingsd.ui.DatePickerFragment;
+import com.example.tku.accountingsd.ui.DialogManager;
 
 import java.util.Calendar;
 
@@ -51,8 +52,7 @@ public class addReminderFragment extends BaseFragment implements DatePickerDialo
         tvReminderDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerFragment datePicker = new DatePickerFragment();
-                datePicker.show(getFragmentManager(), "date Picker");
+                showDateDialog();
             }
         });
 
@@ -137,5 +137,21 @@ public class addReminderFragment extends BaseFragment implements DatePickerDialo
         String currentDateString = year + "-" + (month + 1) + "-" + dayOfMonth;
 
         tvReminderDatePicker.setText(currentDateString);
+    }
+
+    private void showDateDialog() {
+        final Calendar calendar = Calendar.getInstance();
+        DialogManager.getInstance().showDatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                Calendar c = Calendar.getInstance();
+                c.set(Calendar.YEAR, year);
+                c.set(Calendar.MONTH, month);
+                c.set(Calendar.DAY_OF_MONTH, day);
+                String currentDateString = year + "-" + (month + 1) + "-" + day;
+
+                tvReminderDatePicker.setText(currentDateString);
+            }
+        }, calendar);
     }
 }
