@@ -2,13 +2,19 @@ package com.example.tku.accountingsd.DBHelper;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.widget.Toast;
 
 import com.example.tku.accountingsd.R;
 import com.example.tku.accountingsd.model.Categories;
+import com.example.tku.accountingsd.model.ImageData;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -21,6 +27,7 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "Categories";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_TITLE = "title";
+    private static final String COLUMN_IMAGE_DATA = "image_data";
 
     private Context mContext;
 
@@ -39,6 +46,7 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
         db.execSQL(CategoriesTable.CREATE_TABLE_QUERY);
         // Fill the table with predefined values
         CategoriesTable.fillTable(db, mContext);
+
     }
 
 
@@ -46,18 +54,37 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
         public static final String CREATE_TABLE_QUERY =
                 " CREATE TABLE " + TABLE_NAME + " (" +
                         COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        COLUMN_TITLE + " TEXT NOT NULL)";
+                        COLUMN_TITLE + " TEXT NOT NULL, "+
+                        COLUMN_IMAGE_DATA + " BLOB)";
 
         public static final String DELETE_TABLE_QUERY =
                 "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
         public static void fillTable(SQLiteDatabase db, Context ctx) {
-            String[] predefinedTitle = ctx.getResources().getStringArray(R.array.predefined_categories);
+
+
             ContentValues values = new ContentValues();
+
+
+            TypedArray imageID = ctx.getResources().obtainTypedArray(R.array.categories_image);
+            Bitmap bitmap;
+            ImageData categoriesImage =new ImageData();
+
+            int i =0;
+
+            String[] predefinedTitle = ctx.getResources().getStringArray(R.array.predefined_categories);
+
             for (String title : predefinedTitle) {
+
+                bitmap = BitmapFactory.decodeResource(ctx.getResources(), imageID.getResourceId(i,0));
+                categoriesImage.setImageDataFromBitmap(bitmap);
+                values.put(COLUMN_IMAGE_DATA,categoriesImage.bitmapToByte(bitmap));
                 values.put(COLUMN_TITLE, title);
-                db.insert(TABLE_NAME, null, values);
+                db.insert(TABLE_NAME,null,values);
+                i++;
             }
+
+
         }
     }
 
@@ -102,6 +129,7 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
 
                 categories.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_ID)));
                 categories.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
+                categories.setImage(cursor.getBlob(cursor.getColumnIndex(COLUMN_IMAGE_DATA)));
                 categoriesLinkedList.add(categories);
             } while (cursor.moveToNext());
         }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="categories_image">
+        <item>@drawable/food</item>
+        <item>@drawable/dessert</item>
+        <item>@drawable/drink</item>
+        <item>@drawable/shopping</item>
+        <item>@drawable/clothes</item>
+        <item>@drawable/accessories</item>
+        <item>@drawable/present</item>
+        <item>@drawable/transportation</item>
+        <item>@drawable/chummage</item>
+    </integer-array>
+</resources>

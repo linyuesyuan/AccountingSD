@@ -22,8 +22,6 @@ import com.example.tku.accountingsd.model.Reminder;
 
 public class reminderFragment extends BaseFragment {
 
-    public static final int RQ_REMINDER = 1002;
-
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private ReminderDBHelper dbHelper;

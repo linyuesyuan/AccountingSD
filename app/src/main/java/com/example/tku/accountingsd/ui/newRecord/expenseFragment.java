@@ -65,7 +65,7 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle("收支");
+        getActivity().setTitle("收入支出");
     }
 
     @Override
@@ -77,8 +77,6 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
         findViewById(v);
 
         loadSpinnerData();
-
-        loadSum();
 
         tvDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,6 +131,7 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
 
         currentDateString = yy + "-" + (mm + 1) + "-" + dd;
         tvDatePicker.setText(currentDateString);
+        loadSum();
     }
 
     @Override

@@ -1,50 +1,14 @@
 package com.example.tku.accountingsd.model;
 
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public class Categories {
+public class ImageData {
+    private byte[] imageData = null;
 
-    int id;
-    String title;
-    byte[] imageData=null;
-    //String imageId;
-
-    public Categories() {
-    }
-
-    public Categories(String title) {
-        this.title = title;
-        //this.imageId = imageId;
-    }
-
-    public int getId(){
-        return id;
-    }
-
-    public void setId(int id){
-        this.id=id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public byte[] getImage() {
-        return this.imageData;
-    }
-
-    public void setImage(byte[] imageData) {
-        this.imageData = imageData;
-    }
 
     // Bitmap to byte[] to imageData
     public void setImageDataFromBitmap(Bitmap image) {
@@ -71,6 +35,7 @@ public class Categories {
         }
         return null;
     }
+
     // Convert imageData directly to bitmap
     public Bitmap getImageDataInBitmap() {
         if (imageData != null) {
@@ -83,8 +48,4 @@ public class Categories {
     public byte[] getImageData() {
         return imageData;
     }
-
 }
-
-
-

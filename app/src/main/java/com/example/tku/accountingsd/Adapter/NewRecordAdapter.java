@@ -12,10 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tku.accountingsd.DBHelper.NewRecordDBHelper;
 import com.example.tku.accountingsd.R;
+import com.example.tku.accountingsd.model.Categories;
 import com.example.tku.accountingsd.model.Record;
 import com.example.tku.accountingsd.ui.newRecord.UpdateRecordActivity;
 import com.example.tku.accountingsd.ui.newRecord.expenseFragment;
@@ -23,6 +25,7 @@ import com.example.tku.accountingsd.ui.newRecord.expenseFragment;
 import java.util.List;
 
 public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.ViewHolder>  {
+
     private List<Record> mRecordList;
     private Context mContext;
     private RecyclerView mRecyclerV;
@@ -33,7 +36,7 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
         // each data item is just a string in this case
         public TextView tvTitle;
         public TextView tvMoney;
-        public TextView tvType;
+        public ImageView image;
         private CardView cardView;
 
         public View layout;
@@ -43,7 +46,7 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
             layout = v;
             tvTitle = (TextView)v.findViewById(R.id.tvTitle);
             tvMoney = (TextView)v.findViewById(R.id.tvMoney);
-            tvType = (TextView)v.findViewById(R.id.tvType);
+            image = (ImageView) v.findViewById(R.id.image);
             cardView = (CardView)v.findViewById(R.id.cardView);
 
             cardView.setCardBackgroundColor(Color.TRANSPARENT);
@@ -78,7 +81,7 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
     @Override
     public void onBindViewHolder(@NonNull NewRecordAdapter.ViewHolder holder, final int position) {
         final Record record = mRecordList.get(position);
-        holder.tvType.setText(record.getType() + " :");
+
         holder.tvTitle.setText(record.getTitle());
         holder.tvMoney.setText("$" + record.getMoney());
 
@@ -94,7 +97,7 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
                     public void onClick(DialogInterface dialog, int which) {
 
                         //go to update activity
-                        goToUpdateActivity(record.getId());
+
 
                     }
                 });
@@ -124,11 +127,6 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
         });
     }
 
-    private void goToUpdateActivity(long recordId){
-        Intent goToUpdate = new Intent(mContext, UpdateRecordActivity.class);
-        goToUpdate.putExtra("RECORD_ID", recordId);
-        mContext.startActivity(goToUpdate);
-    }
 
 
     @Override

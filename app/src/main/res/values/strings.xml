@@ -23,16 +23,17 @@
     <string name="home_screen">主畫面</string>
 
     <!-- Predefined expense categories -->
-    <string name="cat_general">一般</string>
-    <string name="cat_clothes">衣服</string>
-    <string name="cat_entertainment">娛樂</string>
     <string name="cat_food">食物</string>
-    <string name="cat_health">醫藥</string>
-    <string name="cat_household">居家</string>
-    <string name="cat_hygiene">衛生</string>
-    <string name="cat_pets">寵物</string>
-    <string name="cat_presents">禮物</string>
-    <string name="cat_sports">運動</string>
+    <string name="cat_dessert">甜點</string>
+    <string name="cat_drink">飲料</string>
+    <string name="cat_shopping">購物</string>
+    <string name="cat_clothes">衣服</string>
+    <string name="cat_accessories">飾品</string>
+    <string name="cat_present">禮物</string>
     <string name="cat_transportation">交通</string>
+    <string name="cat_chummage">房租</string>
+    <string name="cat_sports">運動</string>
     <string name="sum">總計</string>
+    <string name="title">名稱：</string>
+    <string name="money">金額：</string>
 </resources>

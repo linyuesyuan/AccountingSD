@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.tku.accountingsd.DBHelper.CategoriesDBHelper;
 import com.example.tku.accountingsd.R;
@@ -32,6 +31,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mTxt;
+        public ImageView image;
         private CardView cardView;
 
         public View layout;
@@ -40,6 +40,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
             super(v);
             layout=v;
             mTxt = (TextView) v.findViewById(R.id.txt);
+            image = (ImageView) v.findViewById(R.id.image);
             cardView = (CardView)v.findViewById(R.id.cardView);
             cardView.setCardBackgroundColor(Color.TRANSPARENT);
 
@@ -74,8 +75,11 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull CategoriesAdapter.ViewHolder viewHolder, final int position) {
+
+
         final Categories categories = mCategoriesList.get(position);
 
+        viewHolder.image.setImageBitmap(categories.getImageDataInBitmap());
         viewHolder.mTxt.setText(categories.getTitle());
 
         //listen to single view layout click

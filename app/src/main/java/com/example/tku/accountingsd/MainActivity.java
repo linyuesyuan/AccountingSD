@@ -11,7 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.tku.accountingsd.ui.StatisticsFragment;
-import com.example.tku.accountingsd.ui.account.accountActivity;
+import com.example.tku.accountingsd.ui.account.accountFragment;
 import com.example.tku.accountingsd.ui.categories.CategoryFragment;
 import com.example.tku.accountingsd.ui.depositTarget.depositTargetFragment;
 import com.example.tku.accountingsd.ui.homeScreen.homeScreenFragment;
@@ -121,8 +121,7 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_cateEdit) {
             getSupportFragmentManager().beginTransaction().replace(R.id.content_main, new CategoryFragment()).commit();
         } else if (id == R.id.nav_account) {
-            intent.setClass(MainActivity.this, accountActivity.class);
-            startActivity(intent);
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main,new accountFragment()).commit();
         } else if (id == R.id.nav_statistics){
             getSupportFragmentManager().beginTransaction().replace(R.id.content_main,new StatisticsFragment()).commit();
         }

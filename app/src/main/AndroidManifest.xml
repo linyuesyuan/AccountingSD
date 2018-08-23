@@ -21,8 +21,6 @@
         </activity>
         <activity android:name=".ui.reminders.addReminderActivity" />
         <activity android:name=".ui.reminders.UpdateReminderActivity" />
-        <activity android:name=".ui.depositTarget.depositTargetActivity" />
-        <activity android:name=".ui.account.accountActivity" />
         <activity android:name=".ui.newRecord.UpdateRecordActivity"></activity>
     </application>
 
