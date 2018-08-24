@@ -83,17 +83,35 @@
                             android:inputType="numberDecimal" />
                     </LinearLayout>
 
-                    <Spinner
-                        android:id="@+id/spinner"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:scrollbarSize="30dp"/>
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/textView6"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="5"
+                            android:textSize="20sp"
+                            android:text="@string/categories" />
+
+                        <Spinner
+                            android:id="@+id/spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:scrollbarSize="30dp" />
+                    </LinearLayout>
 
                     <Button
                         android:id="@+id/btCreateRecord"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/create_record" />
+                        android:text="@string/create_record"
+                        android:background="@drawable/shape_button"
+                        android:layout_gravity="center"/>
 
                 </LinearLayout>
 
@@ -118,8 +136,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="#ffffff"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layerType="software">
 
             <TextView
                 android:id="@+id/textView3"

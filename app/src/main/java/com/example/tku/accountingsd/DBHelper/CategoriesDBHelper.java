@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.tku.accountingsd.R;
@@ -28,6 +29,8 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_TITLE = "title";
     private static final String COLUMN_IMAGE_DATA = "image_data";
+
+    String TAG = "mama";
 
     private Context mContext;
 
@@ -77,7 +80,6 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
             for (String title : predefinedTitle) {
 
                 bitmap = BitmapFactory.decodeResource(ctx.getResources(), imageID.getResourceId(i,0));
-                categoriesImage.setImageDataFromBitmap(bitmap);
                 values.put(COLUMN_IMAGE_DATA,categoriesImage.bitmapToByte(bitmap));
                 values.put(COLUMN_TITLE, title);
                 db.insert(TABLE_NAME,null,values);
@@ -172,7 +174,7 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                list.add(cursor.getString(1));//adding 2nd column data
+                list.add(cursor.getString(1));
             } while (cursor.moveToNext());
         }
         // closing connection
@@ -180,6 +182,27 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
         db.close();
         // returning lables
         return list;
+    }
+
+    public byte[] getImage(String categoriesName){
+        byte[] image =null;
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE title = '" + categoriesName + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                image = cursor.getBlob((cursor.getColumnIndex(COLUMN_IMAGE_DATA)));
+            } while (cursor.moveToNext());
+        }
+
+        if(image == null){
+            Log.d(TAG, "image are null");
+        }
+
+        cursor.close();
+        db.close();
+        return image;
     }
 
 }

@@ -75,8 +75,6 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull CategoriesAdapter.ViewHolder viewHolder, final int position) {
-
-
         final Categories categories = mCategoriesList.get(position);
 
         viewHolder.image.setImageBitmap(categories.getImageDataInBitmap());

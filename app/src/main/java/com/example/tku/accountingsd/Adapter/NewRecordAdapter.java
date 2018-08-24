@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -15,9 +17,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.tku.accountingsd.DBHelper.CategoriesDBHelper;
 import com.example.tku.accountingsd.DBHelper.NewRecordDBHelper;
 import com.example.tku.accountingsd.R;
 import com.example.tku.accountingsd.model.Categories;
+import com.example.tku.accountingsd.model.ImageData;
 import com.example.tku.accountingsd.model.Record;
 import com.example.tku.accountingsd.ui.newRecord.UpdateRecordActivity;
 import com.example.tku.accountingsd.ui.newRecord.expenseFragment;
@@ -29,6 +33,7 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
     private List<Record> mRecordList;
     private Context mContext;
     private RecyclerView mRecyclerV;
+    private CategoriesDBHelper categoriesDBHelper;
 
     String TAG = "position";
 
@@ -81,7 +86,16 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
     @Override
     public void onBindViewHolder(@NonNull NewRecordAdapter.ViewHolder holder, final int position) {
         final Record record = mRecordList.get(position);
+        categoriesDBHelper = new CategoriesDBHelper(mContext);
 
+
+        byte[] imageByte = categoriesDBHelper.getImage(record.getType());
+
+        Log.d(TAG,record.getTitle());
+
+        Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte,0,imageByte.length);
+
+        holder.image.setImageBitmap(bitmap);
         holder.tvTitle.setText(record.getTitle());
         holder.tvMoney.setText("$" + record.getMoney());
 
@@ -98,7 +112,6 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
 
                         //go to update activity
 
-
                     }
                 });
                 builder.setNeutralButton("刪除", new DialogInterface.OnClickListener() {
@@ -107,7 +120,7 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
                         NewRecordDBHelper dbHelper = new NewRecordDBHelper(mContext);
                         dbHelper.deleteRecord(record.getId(), mContext);
 
-                        Log.d(TAG, Integer.toString(position));
+
 
                         mRecordList.remove(position);
                         mRecyclerV.removeViewAt(position);
