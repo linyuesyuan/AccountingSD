@@ -1,24 +1,37 @@
 package com.example.tku.accountingsd;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
+import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.tku.accountingsd.ui.StatisticsFragment;
-import com.example.tku.accountingsd.ui.account.accountFragment;
+import com.example.tku.accountingsd.DBHelper.NewRecordDBHelper;
+import com.example.tku.accountingsd.interfaces.IDataLoaderListener;
+import com.example.tku.accountingsd.ui.statistics.StatisticsFragment;
+import com.example.tku.accountingsd.ui.setting.settingFragment;
 import com.example.tku.accountingsd.ui.categories.CategoryFragment;
 import com.example.tku.accountingsd.ui.depositTarget.depositTargetFragment;
 import com.example.tku.accountingsd.ui.homeScreen.homeScreenFragment;
 import com.example.tku.accountingsd.ui.reminders.reminderFragment;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -31,11 +44,10 @@ public class MainActivity extends BaseActivity
     public static final String NAVIGATION_POSITION = "navigation_position";
 
     private int mCurrentMode = NAVIGATION_MODE_STANDARD;
-    private int idSelectedNavigationItem;
 
-    private DrawerLayout drawer;
     private NavigationView navigationView;
-    private Toolbar toolbar;
+
+    private SparseArray<String> mCategoryIdToName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +133,7 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_cateEdit) {
             getSupportFragmentManager().beginTransaction().replace(R.id.content_main, new CategoryFragment()).commit();
         } else if (id == R.id.nav_account) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_main,new accountFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main,new settingFragment()).commit();
         } else if (id == R.id.nav_statistics){
             getSupportFragmentManager().beginTransaction().replace(R.id.content_main,new StatisticsFragment()).commit();
         }
@@ -132,6 +144,8 @@ public class MainActivity extends BaseActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 
 
 }

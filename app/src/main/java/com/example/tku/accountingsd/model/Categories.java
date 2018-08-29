@@ -12,14 +12,13 @@ public class Categories {
     int id;
     String title;
     byte[] imageData=null;
-    //String imageId;
 
     public Categories() {
     }
 
-    public Categories(String title) {
+    public Categories(String title, byte[] imageData) {
         this.title = title;
-        //this.imageId = imageId;
+        this.imageData = imageData;
     }
 
     public int getId(){

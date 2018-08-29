@@ -20,7 +20,7 @@
     <string name="create_record">新增</string>
     <string name="startDate"> 起始日期：</string>
     <string name="clothes">衣服</string>
-    <string name="home_screen">主畫面</string>
+    <string name="home_screen">回主畫面</string>
 
     <!-- Predefined expense categories -->
     <string name="cat_food">食物</string>
@@ -37,4 +37,5 @@
     <string name="title">名稱：</string>
     <string name="money">金額：</string>
     <string name="categories">類別：</string>
+    <string name="setting">設定</string>
 </resources>

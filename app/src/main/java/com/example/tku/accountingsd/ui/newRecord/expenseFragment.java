@@ -143,7 +143,7 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
     private void saveExpense() {
         String title = etTitle.getText().toString().trim();
         String date = tvDatePicker.getText().toString().trim();
-        Double money = Double.parseDouble(etMoney.getText().toString().trim());
+        Float money = Float.parseFloat(etMoney.getText().toString().trim());
         String type = spinner.getSelectedItem().toString().trim();
         dbHelper = new NewRecordDBHelper(getActivity());
 

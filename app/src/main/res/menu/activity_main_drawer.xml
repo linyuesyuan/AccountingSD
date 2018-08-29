@@ -6,7 +6,14 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home_screen"
-            android:title="@string/home_screen" />
+            android:title="@string/home_screen"
+            android:icon="@drawable/icons_home_page"/>
+
+        <item
+            android:id="@+id/nav_cateEdit"
+            android:icon="@drawable/ic_menu_categories"
+            android:title="@string/cateEdit" />
+
         <item
             android:id="@+id/nav_reminder"
             android:icon="@drawable/ic_menu_reminders"
@@ -15,10 +22,7 @@
             android:id="@+id/nav_depositTarget"
             android:icon="@drawable/ic_menu_target"
             android:title="@string/depositTarget" />
-        <item
-            android:id="@+id/nav_cateEdit"
-            android:icon="@drawable/ic_menu_categories"
-            android:title="@string/cateEdit" />
+
 
         <item
             android:id="@+id/nav_statistics"
@@ -27,7 +31,7 @@
 
         <item
             android:id="@+id/nav_account"
-            android:icon="@drawable/ic_menu_login"
-            android:title="@string/account" />
+            android:icon="@drawable/icons_settings"
+            android:title="@string/setting" />
     </group>
 </menu>

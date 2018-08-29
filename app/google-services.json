@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "294268066018",
+    "firebase_url": "https://accountingsd-ffd36.firebaseio.com",
+    "project_id": "accountingsd-ffd36",
+    "storage_bucket": "accountingsd-ffd36.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:294268066018:android:d2f97690fee12014",
+        "android_client_info": {
+          "package_name": "com.example.tku.accountingsd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "294268066018-egi29hg3jeu8039ah35vcnm34tjc363v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tku.accountingsd",
+            "certificate_hash": "d2ae22d314e123bbbde5f1362b49b9bf6528106b"
+          }
+        },
+        {
+          "client_id": "294268066018-lofblcsb9cg9aupq171j67vvvrvebcv4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8I2-Wv3IsQPdQ_bNqf7IV8_h12OQj2BY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "294268066018-lofblcsb9cg9aupq171j67vvvrvebcv4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
