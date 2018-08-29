@@ -2,11 +2,13 @@ package com.example.tku.accountingsd.ui.statistics;
 
 
 import android.app.DatePickerDialog;
+import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.DatePicker;
 import com.example.tku.accountingsd.DBHelper.CategoriesDBHelper;
 import com.example.tku.accountingsd.DBHelper.NewRecordDBHelper;
 import com.example.tku.accountingsd.R;
+import com.example.tku.accountingsd.interfaces.IDataLoaderListener;
 import com.example.tku.accountingsd.model.Record;
 import com.example.tku.accountingsd.ui.DialogManager;
 import com.github.mikephil.charting.charts.PieChart;
@@ -74,10 +77,29 @@ public class PieChartFragment extends Fragment {
 
         setFirstOfMonth();
         setLastOfMonth();
+        fillChart();
 
         return v;
     }
 
+    private void fillChart(){
+        newRecordDBHelper = new NewRecordDBHelper(getActivity());
+        dbHelper = new CategoriesDBHelper(getActivity());
+        SparseArray<Float> sumOfCategories = newRecordDBHelper.loadPeiChartData();
+        SparseArray<String> categoriesTitle = dbHelper.loadCategoriesTitle();
+        List<PieEntry> entries = new ArrayList<>();
+
+        for(int i =0; i<sumOfCategories.size(); i++){
+            String categories = categoriesTitle.valueAt(sumOfCategories.keyAt(i));
+            float sum = sumOfCategories.valueAt(i);
+            entries.add(new PieEntry(sum, categories));
+        }
+        PieDataSet set = new PieDataSet(entries, "Election Results");
+        PieData data = new PieData(set);
+        mPieChart.setData(data);
+        mPieChart.invalidate(); // refresh
+
+    }
 
 
 
@@ -120,4 +142,6 @@ public class PieChartFragment extends Fragment {
             }
         }, calendar);
     }
+
+
 }

@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import com.example.tku.accountingsd.R;
 import com.example.tku.accountingsd.model.Record;
 import com.example.tku.accountingsd.ui.DialogManager;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.function.DoubleToIntFunction;
@@ -56,6 +58,8 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
     String currentDateString;
 
     Activity mActivity;
+
+    SparseArray<String> categoriesTitleIdArray ;
 
 
     public expenseFragment() {
@@ -145,6 +149,8 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
         String date = tvDatePicker.getText().toString().trim();
         Float money = Float.parseFloat(etMoney.getText().toString().trim());
         String type = spinner.getSelectedItem().toString().trim();
+        int categories = categoriesTitleIdArray.indexOfValue(type)+1;
+
         dbHelper = new NewRecordDBHelper(getActivity());
 
         if (title.isEmpty()) {
@@ -159,7 +165,7 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
             Toast.makeText(getActivity(), "你必須輸入金額", Toast.LENGTH_SHORT).show();
         }
         //create new record
-        Record Record = new Record(title, date, money, type);
+        Record Record = new Record(title, date, money, categories);
         dbHelper.saveNewRecord(Record);
         populateRecyclerView(filter);
     }
@@ -196,8 +202,12 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
 
     private void loadSpinnerData() {
         CategoriesDBHelper dbHelper = new CategoriesDBHelper(getActivity());
-        List<String> titles = dbHelper.getAllTitle();
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, titles);
+        categoriesTitleIdArray = dbHelper.getAllTitle();
+        List<String> title = new ArrayList<>();
+        for (int i = 0; i < categoriesTitleIdArray.size(); i++) {
+            title.add(categoriesTitleIdArray.valueAt(i));
+        }
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, title);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
     }
@@ -225,6 +235,5 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
 
     @Override
     public void onNothingSelected(AdapterView<?> arg0) {
-        // TODO Auto-generated method stub
     }
 }

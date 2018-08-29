@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
+import android.util.SparseArray;
 import android.widget.Toast;
 
 import com.example.tku.accountingsd.R;
@@ -18,6 +19,7 @@ import com.example.tku.accountingsd.model.Categories;
 import com.example.tku.accountingsd.model.ImageData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -162,7 +164,8 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
 
     }
 
-    public List<String> getAllTitle(){
+    public SparseArray<String> getAllTitle(){
+        SparseArray<String> titleIndexArray= new SparseArray<>();
         List<String> list = new ArrayList<String>();
 
         // Select All Query
@@ -174,19 +177,22 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
+                int categoriesID =(int)cursor.getLong(cursor.getColumnIndex(COLUMN_ID));
+                String categoriesTitle = cursor.getString(cursor.getColumnIndex(COLUMN_TITLE));
                 list.add(cursor.getString(1));
+                titleIndexArray.append(categoriesID, categoriesTitle);
             } while (cursor.moveToNext());
         }
         // closing connection
         cursor.close();
         db.close();
         // returning lables
-        return list;
+        return titleIndexArray;
     }
 
-    public byte[] getImage(String categoriesName){
+    public byte[] getImage(int categoriesIndex){
         byte[] image =null;
-        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE title = '" + categoriesName + "'";
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE _id = '" + categoriesIndex + "'";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -203,6 +209,25 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return image;
+    }
+
+    public SparseArray<String> loadCategoriesTitle(){
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        SparseArray<String> categoriesTitle = new SparseArray<>();
+        if(cursor.moveToFirst()){
+            do{
+                int categoriesId = (int)cursor.getLong(cursor.getColumnIndex(COLUMN_ID));
+                String categories = cursor.getString((cursor.getColumnIndex(COLUMN_TITLE)));
+                categoriesTitle.append(categoriesId, categories);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return categoriesTitle;
+
     }
 
 }

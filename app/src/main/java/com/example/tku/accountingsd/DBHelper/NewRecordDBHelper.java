@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v4.app.INotificationSideChannel;
+import android.util.SparseArray;
 import android.widget.Toast;
 
 import com.example.tku.accountingsd.model.Categories;
@@ -41,9 +42,9 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
         db.execSQL(" CREATE TABLE " + TABLE_NAME + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 COLUMN_DATE + " TEXT NOT NULL, " +
-                COLUMN_TYPE + " TEXT NOT NULL, " +
                 COLUMN_TITLE + " TEXT NOT NULL, " +
-                COLUMN_MONEY + " REAL NOT NULL)"
+                COLUMN_MONEY + " REAL NOT NULL, " +
+                COLUMN_TYPE + " INTEGER NOT NULL)"
         );
     }
 
@@ -95,7 +96,7 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
                 Record.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
                 Record.setDate(cursor.getString(cursor.getColumnIndex(COLUMN_DATE)));
                 Record.setMoney(cursor.getFloat(cursor.getColumnIndex(COLUMN_MONEY)));
-                Record.setType(cursor.getString(cursor.getColumnIndex(COLUMN_TYPE)));
+                Record.setType(cursor.getInt(cursor.getColumnIndex(COLUMN_TYPE)));
                 recordLinkedList.add(Record);
             } while (cursor.moveToNext());
         }
@@ -150,7 +151,7 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
             receivedRecord.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
             receivedRecord.setDate(cursor.getString(cursor.getColumnIndex(COLUMN_DATE)));
             receivedRecord.setMoney(cursor.getFloat(cursor.getColumnIndex(COLUMN_MONEY)));
-            receivedRecord.setType(cursor.getString(cursor.getColumnIndex(COLUMN_TYPE)));
+            receivedRecord.setType(cursor.getInt(cursor.getColumnIndex(COLUMN_TYPE)));
         }
         return receivedRecord;
 
@@ -163,28 +164,41 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
         Toast.makeText(context, "Deleted successfully.", Toast.LENGTH_SHORT).show();
     }
 
-
-    public List<String> getAllCategories(){
+    public SparseArray<Float> peiChartData(){
+        SparseArray<Float> sumByCategory = new SparseArray<>();
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME;
         Cursor cursor = db.rawQuery(query,null);
-        List<String> categoriesList= new ArrayList<String>();
+        int moneyIndex = cursor.getColumnIndex(COLUMN_MONEY);
+        //int dateIndex = cursor.getColumnIndex(COLUMN_DATE);
+        int categoryIndex = cursor.getColumnIndex(COLUMN_TYPE);
         if (cursor.moveToFirst()) {
             do {
-                if(categoriesList.size()==0){
-                    categoriesList.add(cursor.getString(cursor.getColumnIndex(COLUMN_TYPE)));
-                }else{
-                    for(int i =0; i<categoriesList.size(); i++){
-                        if(categoriesList.get(i) != cursor.getString(cursor.getColumnIndex(COLUMN_TYPE))){
-                            categoriesList.add(cursor.getString(cursor.getColumnIndex(COLUMN_TYPE)));
-                        }
-                    }
-                }
+                float money = cursor.getFloat(moneyIndex);
+
             } while (cursor.moveToNext());
         }
-        cursor.close();
-        db.close();
-        return categoriesList;
+        return  sumByCategory;
     }
 
+    public SparseArray<Float> loadPeiChartData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME;
+        Cursor cursor = db.rawQuery(query,null);
+        int categoryIndex = cursor.getColumnIndex(NewRecordDBHelper.COLUMN_TYPE);
+        //int dateIndex = cursor.getColumnIndex(ExpensesContract.ExpensesEntry.COLUMN_DATE);
+        int moneyIndex = cursor.getColumnIndex(NewRecordDBHelper.COLUMN_MONEY);
+
+        cursor.moveToPosition(-1);
+        SparseArray<Float> sumByCategory = new SparseArray<>();
+        while (cursor.moveToNext()) {
+            int category = cursor.getInt(categoryIndex);
+            float money = cursor.getFloat(moneyIndex);
+            float old = sumByCategory.get(category, 0f);
+
+            sumByCategory.append(category, old+money);
+
+        }
+        return sumByCategory;
+    }
 }

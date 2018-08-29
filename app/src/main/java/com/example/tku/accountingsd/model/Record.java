@@ -5,9 +5,9 @@ public class Record {
     String title;
     String date;
     Float money;
-    String type;
+    int type;
 
-    public Record(String title, String date, Float money, String type){
+    public Record(String title, String date, Float money, int type){
         this.title=title;
         this.date=date;
         this.money=money;
@@ -48,11 +48,11 @@ public class Record {
         this.money=money;
     }
 
-    public String getType(){
+    public int getType(){
         return this.type;
     }
 
-    public void setType(String type){
+    public void setType(int type){
         this.type=type;
     }
 }
