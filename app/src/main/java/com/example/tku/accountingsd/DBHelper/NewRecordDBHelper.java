@@ -106,6 +106,34 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
         return recordLinkedList;
     }
 
+    public List<Record> recordListByCategories(int categoriesIndex){
+        List<Record> categoriesList = new LinkedList<>();
+        String query = "SELECT  * FROM " + TABLE_NAME + " WHERE "+ COLUMN_TYPE + " = '" + categoriesIndex + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        Record Record;
+
+        if (cursor.moveToFirst()) {
+            do {
+                Record = new Record();
+
+                Record.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
+                Record.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
+                Record.setDate(cursor.getString(cursor.getColumnIndex(COLUMN_DATE)));
+                Record.setMoney(cursor.getFloat(cursor.getColumnIndex(COLUMN_MONEY)));
+                Record.setType(cursor.getInt(cursor.getColumnIndex(COLUMN_TYPE)));
+                categoriesList.add(Record);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return categoriesList;
+    }
+
+    public List<Record> recordListByCategories(){
+        return recordListByCategories(1);
+    }
+
     public Cursor getExpenseData() {
         String query = "SELECT  * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
