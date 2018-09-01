@@ -1,11 +1,6 @@
 package com.example.tku.accountingsd.model;
 
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 public class Categories {
 
@@ -13,6 +8,7 @@ public class Categories {
     String title;
     String fileName;
     Integer color;
+    int type;
     int imageId;
 
     public Categories() {
@@ -53,6 +49,14 @@ public class Categories {
 
     public void setColor(Integer color){
         this.color = color;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public int getImageId(){

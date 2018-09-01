@@ -32,7 +32,7 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_FILE_NAME = "fileName";
     private static final String COLUMN_TITLE = "title";
     private static final String COLUMN_COLOR = "color";
-    //private static final String COLUMN_BOOLEAN = "expense_income";
+    private static final String COLUMN_BOOLEAN = "expense_income";
 
     private Context mContext;
 
@@ -61,7 +61,8 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
                         COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                         COLUMN_FILE_NAME +" TEXT NOT NULL, "+
                         COLUMN_TITLE + " TEXT NOT NULL, "+
-                        COLUMN_COLOR + " INTEGER NOT NULL)";
+                        COLUMN_COLOR + " INTEGER NOT NULL, "+
+                        COLUMN_BOOLEAN + " INTEGER NOT NULL)";
 
         //COLUMN_BOOLEAN + " INTEGER DEFAULT 0
 
@@ -69,19 +70,13 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
                 "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
         private static void fillTable(SQLiteDatabase db, Context ctx) {
-
-
             ContentValues values = new ContentValues();
-
-
-            TypedArray imageID = ctx.getResources().obtainTypedArray(R.array.categories_image);
-            Bitmap bitmap;
-            ImageData categoriesImage =new ImageData();
 
             int i =0;
 
             String[] predefinedTitle = ctx.getResources().getStringArray(R.array.predefined_categories);
             String[] fileName = ctx.getResources().getStringArray(R.array.preset_categories_name);
+            int[] type ={0, 0, 0, 0, 0, 0, 0, 1, 1};
             List<Integer> colorArray = new ArrayList<>();
             colorArray.add(1676170361);
             colorArray.add(1676189268);
@@ -95,6 +90,8 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
 
             for (String title : predefinedTitle) {
                 values.put(COLUMN_FILE_NAME, fileName[i]);
+                Log.d("boolean", Integer.toString(type[i]));
+                values.put(COLUMN_BOOLEAN, type[i]);
                 values.put(COLUMN_TITLE, title);
                 values.put(COLUMN_COLOR, colorArray.get(i));
                 db.insert(TABLE_NAME,null,values);
@@ -141,10 +138,13 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
                 categories.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_ID)));
                 categories.setFileName(cursor.getString(cursor.getColumnIndex(COLUMN_FILE_NAME)));
                 categories.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
+                categories.setType(cursor.getInt(cursor.getColumnIndex(COLUMN_BOOLEAN)));
                 categories.setColor(cursor.getInt(cursor.getColumnIndex(COLUMN_COLOR)));
                 categoriesLinkedList.add(categories);
             } while (cursor.moveToNext());
         }
+        cursor.close();
+        db.close();
 
         return categoriesLinkedList;
     }
@@ -160,8 +160,9 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
 
             receivedCate.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
         }
+        cursor.close();
+        db.close();
         return receivedCate;
-
     }
 
     public void deleteCategories(int id, Context context) {
@@ -169,6 +170,7 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
 
         db.execSQL("DELETE FROM "+TABLE_NAME+" WHERE _id='"+id+"'");
         Toast.makeText(context, "Deleted successfully.", Toast.LENGTH_SHORT).show();
+        db.close();
 
     }
 
@@ -187,6 +189,7 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
             do {
                 int categoriesID =(int)cursor.getLong(cursor.getColumnIndex(COLUMN_ID));
                 String categoriesTitle = cursor.getString(cursor.getColumnIndex(COLUMN_TITLE));
+
                 list.add(cursor.getString(1));
                 titleIndexArray.append(categoriesID, categoriesTitle);
             } while (cursor.moveToNext());
@@ -214,7 +217,38 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return categoriesTitle;
+    }
 
+    public SparseArray<Integer> loadColor(){
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        SparseArray<Integer> colorList = new SparseArray<>();
+        if(cursor.moveToFirst()){
+            do{
+                int categoriesId = (int)cursor.getLong(cursor.getColumnIndex(COLUMN_ID));
+                int colorIndex = cursor.getInt(cursor.getColumnIndex(COLUMN_COLOR));
+                String categories = cursor.getString((cursor.getColumnIndex(COLUMN_TITLE)));
+                colorList.append(categoriesId, colorIndex);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return colorList;
+    }
+    public int passBooleanByCategories(int categoriesIndex){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE "+ COLUMN_ID +"="+ categoriesIndex;
+        Cursor cursor = db.rawQuery(query,null);
+        int exp_inc = 0;
+        if(cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            exp_inc = cursor.getInt(cursor.getColumnIndex(COLUMN_BOOLEAN));
+        }
+        cursor.close();
+        db.close();
+        return exp_inc;
     }
 
 }

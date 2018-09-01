@@ -21,8 +21,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.tku.accountingsd.DBHelper.CategoriesDBHelper;
-import com.example.tku.accountingsd.DBHelper.ImageDBHelper;
 import com.example.tku.accountingsd.R;
 import com.example.tku.accountingsd.model.Categories;
 import com.example.tku.accountingsd.model.ImageData;
@@ -40,7 +38,6 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     private List<Categories> mCategoriesList;
     private Context mContext;
     private RecyclerView mRecyclerV;
-    private ImageDBHelper imageDBHelper;
 
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -98,7 +95,6 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         final Categories categories = mCategoriesList.get(position);
 
         pathReference = storageRef.child(categories.getFileName());
-
         pathReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
@@ -114,6 +110,13 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
                 Log.d("load_Failure", exception.getMessage());
             }
         });
+
+        if(categories.getType()==1){
+            //viewHolder.cardView.setCardBackgroundColor(1297410206);
+            viewHolder.cardView.setBackgroundColor(1297410206);
+            //viewHolder.cardView.setRadius(50);
+        }
+
 
         viewHolder.mTxt.setText(categories.getTitle());
         viewHolder.mTxt.setBackgroundColor(categories.getColor());

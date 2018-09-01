@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v4.app.INotificationSideChannel;
+import android.util.Log;
 import android.util.SparseArray;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_TYPE = "type";
     public static final String COLUMN_TITLE = "title";
     public static final String COLUMN_MONEY = "money";
+    private static final String COLUMN_BOOLEAN = "expense_income";
 
     public NewRecordDBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -41,9 +43,10 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(" CREATE TABLE " + TABLE_NAME + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                COLUMN_DATE + " TEXT NOT NULL, " +
+                COLUMN_DATE + " DATE NOT NULL, " +
                 COLUMN_TITLE + " TEXT NOT NULL, " +
                 COLUMN_MONEY + " REAL NOT NULL, " +
+                COLUMN_BOOLEAN + " INTEGER NOT NULL,"+
                 COLUMN_TYPE + " INTEGER NOT NULL)"
         );
     }
@@ -54,6 +57,7 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_DATE, Record.getDate());
+        values.put(COLUMN_BOOLEAN, Record.getExp_inc());
         values.put(COLUMN_TYPE, Record.getType());
         values.put(COLUMN_TITLE, Record.getTitle());
         values.put(COLUMN_MONEY, Record.getMoney());
@@ -72,14 +76,9 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
 
     public List<Record> recordList(String filter, String currentDateString) {
         String query;
-        //SQLiteDatabase db = this.getWritableDatabase();
-        //Cursor cursor;
         if(filter.equals("")){
-            //regular query
             query = "SELECT  * FROM " + TABLE_NAME + " WHERE "+ COLUMN_DATE + " = '" + currentDateString + "'";
-            //cursor=db.rawQuery(TABLE_NAME,COLUMN_DATE,)
         }else{
-            //filter results by filter option provided
             query = "SELECT  * FROM " + TABLE_NAME + " ORDER BY "+ filter;
         }
 
@@ -98,6 +97,7 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
                 Record.setMoney(cursor.getFloat(cursor.getColumnIndex(COLUMN_MONEY)));
                 Record.setType(cursor.getInt(cursor.getColumnIndex(COLUMN_TYPE)));
                 recordLinkedList.add(Record);
+                Log.d("date", Record.getDate());
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -156,7 +156,13 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                expense.add(cursor.getDouble(cursor.getColumnIndex(COLUMN_MONEY)));
+                double data = cursor.getDouble(cursor.getColumnIndex(COLUMN_MONEY));
+                int boo = cursor.getInt(cursor.getColumnIndex(COLUMN_BOOLEAN));
+                if(boo != 0){
+                    expense.add(data);
+                }else {
+                    expense.add(0-data);
+                }
             } while (cursor.moveToNext());
         }
         // closing connection
@@ -229,4 +235,5 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
         }
         return sumByCategory;
     }
+
 }

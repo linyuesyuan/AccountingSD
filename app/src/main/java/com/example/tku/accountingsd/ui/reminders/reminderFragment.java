@@ -34,11 +34,12 @@ public class reminderFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        /*
         mRecyclerView.setHasFixedSize(true);
-        // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
+        */
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,16 +51,15 @@ public class reminderFragment extends BaseFragment {
         });
 
 
-        populaterecyclerView(filter);
+        //populaterecyclerView(filter);
     }
 
-    private static final String TAG="Log";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_reminder,container,false);
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.reminderRecyclerView);
+        //mRecyclerView = (RecyclerView) rootView.findViewById(R.id.reminderRecyclerView);
         getActivity().setTitle("週期提醒");
         fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
         return rootView;

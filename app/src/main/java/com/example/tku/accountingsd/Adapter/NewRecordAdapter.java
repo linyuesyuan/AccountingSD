@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tku.accountingsd.DBHelper.CategoriesDBHelper;
-import com.example.tku.accountingsd.DBHelper.ImageDBHelper;
 import com.example.tku.accountingsd.DBHelper.NewRecordDBHelper;
 import com.example.tku.accountingsd.R;
 import com.example.tku.accountingsd.model.Categories;
@@ -122,6 +121,7 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setTitle("請選擇");
                 builder.setMessage("更新或刪除?");
+                /*
                 builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -130,6 +130,7 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
 
                     }
                 });
+                */
                 builder.setNeutralButton("刪除", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

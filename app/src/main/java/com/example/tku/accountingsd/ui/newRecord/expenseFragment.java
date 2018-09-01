@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,11 +29,14 @@ import com.example.tku.accountingsd.Adapter.NewRecordAdapter;
 import com.example.tku.accountingsd.DBHelper.CategoriesDBHelper;
 import com.example.tku.accountingsd.DBHelper.NewRecordDBHelper;
 import com.example.tku.accountingsd.R;
+import com.example.tku.accountingsd.model.Categories;
 import com.example.tku.accountingsd.model.Record;
 import com.example.tku.accountingsd.ui.DialogManager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.function.DoubleToIntFunction;
 
@@ -53,13 +57,16 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
     private Spinner spinner;
     private Button btCreateRecord;
 
-    private TextView mSumTextView;
 
-    String currentDateString;
+
+    long dateMilliSecond;
+
+
+    private TextView mSumTextView;
 
     Activity mActivity;
 
-    SparseArray<String> categoriesTitleIdArray ;
+    SparseArray<String> categoriesTitleIdArray;
 
 
     public expenseFragment() {
@@ -77,11 +84,8 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_expense, container, false);
-
         findViewById(v);
-
         loadSpinnerData();
-
         tvDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,6 +99,7 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
                 saveExpense();
                 clearRecord();
                 loadSum();
+                populateRecyclerView(filter);
             }
         });
 
@@ -129,12 +134,10 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
     private void setCurrentDay() {
 
         final Calendar c = Calendar.getInstance();
-        int yy = c.get(Calendar.YEAR);
-        int mm = c.get(Calendar.MONTH);
-        int dd = c.get(Calendar.DAY_OF_MONTH);
-
-        currentDateString = yy + "-" + (mm + 1) + "-" + dd;
-        tvDatePicker.setText(currentDateString);
+        dateMilliSecond = c.getTimeInMillis();
+        Date date = new Date(dateMilliSecond);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd ");
+        tvDatePicker.setText(dateFormat.format(date));
         loadSum();
     }
 
@@ -145,11 +148,14 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
     }
 
     private void saveExpense() {
+        CategoriesDBHelper categoriesDBHelper = new CategoriesDBHelper(getActivity());
         String title = etTitle.getText().toString().trim();
         String date = tvDatePicker.getText().toString().trim();
         Float money = Float.parseFloat(etMoney.getText().toString().trim());
-        String type = spinner.getSelectedItem().toString().trim();
-        int categories = categoriesTitleIdArray.indexOfValue(type)+1;
+        String categories = spinner.getSelectedItem().toString().trim();
+        int categoriesIndex = categoriesTitleIdArray.indexOfValue(categories)+1;
+        Log.d("categoriesIndex" ,Integer.toString(categoriesIndex));
+        int exp_inc = categoriesDBHelper.passBooleanByCategories(categoriesIndex);
 
         dbHelper = new NewRecordDBHelper(getActivity());
 
@@ -157,7 +163,7 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
             //error name is empty
             Toast.makeText(getActivity(), "You must enter a title", Toast.LENGTH_SHORT).show();
         }
-        if (type.isEmpty()) {
+        if (categories.isEmpty()) {
             //error name is empty
             Toast.makeText(getActivity(), "You must enter an type", Toast.LENGTH_SHORT).show();
         }
@@ -165,7 +171,7 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
             Toast.makeText(getActivity(), "你必須輸入金額", Toast.LENGTH_SHORT).show();
         }
         //create new record
-        Record Record = new Record(title, date, money, categories);
+        Record Record = new Record(title, date, money, categoriesIndex, exp_inc);
         dbHelper.saveNewRecord(Record);
         populateRecyclerView(filter);
     }
@@ -178,7 +184,8 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
 
     private void populateRecyclerView(String filter) {
         dbHelper = new NewRecordDBHelper(getActivity());
-        adapter = new NewRecordAdapter(dbHelper.recordList(filter, currentDateString), getActivity(), mRecyclerView);
+        adapter = new NewRecordAdapter(dbHelper.recordList(filter, tvDatePicker.getText().toString().trim()), getActivity(), mRecyclerView);
+        //Log.d("dateSelected", dateSelected);
         mRecyclerView.setAdapter(adapter);
     }
 
@@ -191,9 +198,10 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
                 c.set(Calendar.YEAR, year);
                 c.set(Calendar.MONTH, month);
                 c.set(Calendar.DAY_OF_MONTH, day);
-                currentDateString = year + "-" + (month + 1) + "-" + day;
-
-                tvDatePicker.setText(currentDateString);
+                dateMilliSecond = c.getTimeInMillis();
+                Date date = new Date(dateMilliSecond);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd ");
+                tvDatePicker.setText(dateFormat.format(date));
                 populateRecyclerView(filter);
                 loadSum();
             }
@@ -201,8 +209,8 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
     }
 
     private void loadSpinnerData() {
-        CategoriesDBHelper dbHelper = new CategoriesDBHelper(getActivity());
-        categoriesTitleIdArray = dbHelper.getAllTitle();
+        CategoriesDBHelper categoriesDBHelper = new CategoriesDBHelper(getActivity());
+        categoriesTitleIdArray = categoriesDBHelper.getAllTitle();
         List<String> title = new ArrayList<>();
         for (int i = 0; i < categoriesTitleIdArray.size(); i++) {
             title.add(categoriesTitleIdArray.valueAt(i));
@@ -214,10 +222,11 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
 
     public void loadSum(){
         NewRecordDBHelper dbHelper = new NewRecordDBHelper(getActivity());
-        List<Double> expense = dbHelper.getSum(currentDateString);
-        Double sum=0.0;
+        List<Double> expense = dbHelper.getSum(tvDatePicker.getText().toString().trim());
+        double sum=0.0;
         for(int i = 0; i<expense.size(); i++){
             sum += expense.get(i);
+            Log.d("sum", Double.toString(sum));
         }
         mSumTextView.setText("$"+Double.toString(sum));
     }

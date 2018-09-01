@@ -19,7 +19,6 @@ import android.widget.RadioGroup;
 import com.example.tku.accountingsd.Adapter.CategoriesAdapter;
 import com.example.tku.accountingsd.Adapter.CategoriesPickerAdapter;
 import com.example.tku.accountingsd.DBHelper.CategoriesDBHelper;
-import com.example.tku.accountingsd.DBHelper.ImageDBHelper;
 import com.example.tku.accountingsd.R;
 import com.example.tku.accountingsd.model.ImageData;
 import com.flask.colorpicker.ColorPickerView;
@@ -34,10 +33,6 @@ import java.util.List;
  */
 public class CategoryEditFragment extends Fragment {
 
-    private RecyclerView.LayoutManager mLayoutManager;
-    private CategoriesDBHelper dbHelper;
-    private CategoriesAdapter adapter;
-    private ImageDBHelper imageDBHelper;
     private CategoriesPickerAdapter categoriesPickerAdapter;
 
     private EditText etTitle;

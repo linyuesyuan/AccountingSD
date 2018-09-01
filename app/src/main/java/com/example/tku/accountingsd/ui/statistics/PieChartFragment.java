@@ -2,14 +2,11 @@ package com.example.tku.accountingsd.ui.statistics;
 
 
 import android.app.DatePickerDialog;
-import android.database.Cursor;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +18,6 @@ import com.example.tku.accountingsd.Adapter.NewRecordAdapter;
 import com.example.tku.accountingsd.DBHelper.CategoriesDBHelper;
 import com.example.tku.accountingsd.DBHelper.NewRecordDBHelper;
 import com.example.tku.accountingsd.R;
-import com.example.tku.accountingsd.interfaces.IDataLoaderListener;
-import com.example.tku.accountingsd.model.Record;
 import com.example.tku.accountingsd.ui.DialogManager;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -31,8 +26,6 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
-import com.google.android.gms.common.images.internal.ColorFilters;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -56,6 +49,7 @@ public class PieChartFragment extends Fragment {
     int categoriesIndex;
     SparseArray<Float> sumOfCategories;
     SparseArray<String> categoriesTitle;
+    SparseArray<Integer> colorIndex;
 
     public PieChartFragment() {
         // Required empty public constructor
@@ -112,14 +106,19 @@ public class PieChartFragment extends Fragment {
         dbHelper = new CategoriesDBHelper(getActivity());
         sumOfCategories = newRecordDBHelper.loadPeiChartData();
         categoriesTitle = dbHelper.loadCategoriesTitle();
+        colorIndex = dbHelper.loadColor();
+        List<Integer> colors = new ArrayList<>();
         List<PieEntry> entries = new ArrayList<>();
 
         for(int i =0; i<sumOfCategories.size(); i++){
             String categories = categoriesTitle.valueAt(sumOfCategories.keyAt(i)-1);
             float sum = sumOfCategories.valueAt(i);
+            int color = colorIndex.valueAt(sumOfCategories.keyAt(i)-1);
+            colors.add(color);
             entries.add(new PieEntry(sum, categories));
         }
-        PieDataSet set = new PieDataSet(entries, "Election Results");
+        PieDataSet set = new PieDataSet(entries, null);
+        set.setColors(colors);
         PieData data = new PieData(set);
         mPieChart.setData(data);
         mPieChart.invalidate();// refresh
