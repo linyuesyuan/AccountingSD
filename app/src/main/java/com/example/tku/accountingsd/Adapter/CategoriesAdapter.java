@@ -37,7 +37,7 @@ import java.util.List;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder>  {
 
-    private List<ImageData> mCategoriesList;
+    private List<Categories> mCategoriesList;
     private Context mContext;
     private RecyclerView mRecyclerV;
     private ImageDBHelper imageDBHelper;
@@ -47,8 +47,6 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     StorageReference storageRef = storage.getReference();
     StorageReference pathReference;
     final long ONE_MEGABYTE = 1024 * 1024;
-
-    String TAG = "id";
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -75,8 +73,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     }
 */
 
-    public CategoriesAdapter(List<ImageData> myDataset, Context context, RecyclerView recyclerView) {
-        mCategoriesList = myDataset;
+    public CategoriesAdapter(List<Categories> categoriesDataSet, Context context, RecyclerView recyclerView) {
+        mCategoriesList = categoriesDataSet;
         mContext = context;
         mRecyclerV = recyclerView;
     }
@@ -97,9 +95,9 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull final CategoriesAdapter.ViewHolder viewHolder, final int position) {
-        //final Categories categories = mCategoriesList.get(position);
-        final ImageData imageData = mCategoriesList.get(position);
-        pathReference = storageRef.child(imageData.getName());
+        final Categories categories = mCategoriesList.get(position);
+
+        pathReference = storageRef.child(categories.getFileName());
 
         pathReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
@@ -117,11 +115,9 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
             }
         });
 
-
-        /*
         viewHolder.mTxt.setText(categories.getTitle());
         viewHolder.mTxt.setBackgroundColor(categories.getColor());
-
+/*
         //listen to single view layout click
         viewHolder.layout.setOnClickListener(new View.OnClickListener() {
             @Override

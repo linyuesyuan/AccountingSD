@@ -29,9 +29,9 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
     private static final int version = 3;
     private static final String TABLE_NAME = "Categories";
     private static final String COLUMN_ID = "_id";
+    private static final String COLUMN_FILE_NAME = "fileName";
     private static final String COLUMN_TITLE = "title";
     private static final String COLUMN_COLOR = "color";
-    private static final String COLUMN_IMAGE_DATA = "image_data";
     //private static final String COLUMN_BOOLEAN = "expense_income";
 
     private Context mContext;
@@ -59,9 +59,9 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
         private static final String CREATE_TABLE_QUERY =
                 " CREATE TABLE " + TABLE_NAME + " (" +
                         COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        COLUMN_FILE_NAME +" TEXT NOT NULL, "+
                         COLUMN_TITLE + " TEXT NOT NULL, "+
-                        COLUMN_COLOR + " INTEGER NOT NULL, " +
-                        COLUMN_IMAGE_DATA + " BLOB)";
+                        COLUMN_COLOR + " INTEGER NOT NULL)";
 
         //COLUMN_BOOLEAN + " INTEGER DEFAULT 0
 
@@ -81,6 +81,7 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
             int i =0;
 
             String[] predefinedTitle = ctx.getResources().getStringArray(R.array.predefined_categories);
+            String[] fileName = ctx.getResources().getStringArray(R.array.preset_categories_name);
             List<Integer> colorArray = new ArrayList<>();
             colorArray.add(1676170361);
             colorArray.add(1676189268);
@@ -91,12 +92,9 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
             colorArray.add(1298774504);
             colorArray.add(1297372392);
             colorArray.add(1306028520);
-            colorArray.add(1200000000);
 
             for (String title : predefinedTitle) {
-
-                bitmap = BitmapFactory.decodeResource(ctx.getResources(), imageID.getResourceId(i,0));
-                values.put(COLUMN_IMAGE_DATA,categoriesImage.bitmapToByte(bitmap));
+                values.put(COLUMN_FILE_NAME, fileName[i]);
                 values.put(COLUMN_TITLE, title);
                 values.put(COLUMN_COLOR, colorArray.get(i));
                 db.insert(TABLE_NAME,null,values);
@@ -141,9 +139,9 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
                 categories = new Categories();
 
                 categories.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_ID)));
+                categories.setFileName(cursor.getString(cursor.getColumnIndex(COLUMN_FILE_NAME)));
                 categories.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
                 categories.setColor(cursor.getInt(cursor.getColumnIndex(COLUMN_COLOR)));
-                categories.setImage(cursor.getBlob(cursor.getColumnIndex(COLUMN_IMAGE_DATA)));
                 categoriesLinkedList.add(categories);
             } while (cursor.moveToNext());
         }
@@ -198,22 +196,6 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
         db.close();
         // returning lables
         return titleIndexArray;
-    }
-
-    public byte[] getImage(int categoriesIndex){
-        byte[] image =null;
-        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE _id = '" + categoriesIndex + "'";
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                image = cursor.getBlob((cursor.getColumnIndex(COLUMN_IMAGE_DATA)));
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
-        return image;
     }
 
     public SparseArray<String> loadCategoriesTitle(){

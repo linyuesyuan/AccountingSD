@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.example.tku.accountingsd.Adapter.CategoriesAdapter;
 import com.example.tku.accountingsd.Adapter.CategoriesPickerAdapter;
@@ -39,9 +41,12 @@ public class CategoryEditFragment extends Fragment {
     private CategoriesPickerAdapter categoriesPickerAdapter;
 
     private EditText etTitle;
+    private RadioGroup radioGroup;
+    private RadioButton radioButtonSelected;
     private View mColorPickerView;
     private RecyclerView mRecyclerView;
     private Button mButton;
+
 
     long i;
     ImageData imageData;
@@ -58,9 +63,12 @@ public class CategoryEditFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_category_edit, container, false);
 
         etTitle = (EditText) v.findViewById(R.id.etTitle);
+        radioGroup = (RadioGroup) v.findViewById(R.id.radioGroup);
+        radioButtonSelected = (RadioButton) v.findViewById(radioGroup.getCheckedRadioButtonId());
         mColorPickerView = (View) v.findViewById(R.id.color_picker);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
         mButton = (Button) v.findViewById(R.id.bt_createCategories);
+
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.hasFixedSize();
@@ -94,7 +102,7 @@ public class CategoryEditFragment extends Fragment {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                saveCategories();
             }
         });
         loadImageData();
@@ -111,6 +119,7 @@ public class CategoryEditFragment extends Fragment {
             imageData.setName(name);
             imageData.setId(i);
             mImageDataList.add(imageData);
+            Log.d("imagename:",name);
             i++;
         }
     }
@@ -118,11 +127,15 @@ public class CategoryEditFragment extends Fragment {
     private void saveCategories(){
         String title = etTitle.getText().toString();
         Integer color = ((ColorDrawable) mColorPickerView.getBackground()).getColor();
+        String type = radioButtonSelected.getText().toString();
     }
 
     private void populateRecyclerView() {
-        adapter = new CategoriesAdapter(mImageDataList, getActivity(), mRecyclerView);
-        mRecyclerView.setAdapter(adapter);
+        categoriesPickerAdapter = new CategoriesPickerAdapter(mImageDataList, getActivity(), mRecyclerView);
+        mRecyclerView.setAdapter(categoriesPickerAdapter);
     }
+
+
+
 
 }

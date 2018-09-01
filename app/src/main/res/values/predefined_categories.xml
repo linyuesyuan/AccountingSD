@@ -2,13 +2,18 @@
 <resources>
     <string-array name="predefined_categories">
         <item>@string/cat_food</item>
-        <item>@string/cat_dessert</item>
         <item>@string/cat_drink</item>
+        <item>@string/cat_dessert</item>
         <item>@string/cat_shopping</item>
-        <item>@string/cat_clothes</item>
         <item>@string/cat_accessories</item>
-        <item>@string/cat_present</item>
+        <item>@string/cat_transportation</item>
+        <item>@string/cat_couple</item>
+        <item>@string/cat_salary</item>
+        <item>@string/cat_red_envelope</item>
+        <!--
         <item>@string/cat_transportation</item>
         <item>@string/cat_chummage</item>
+        <item>@string/title</item>
+        -->
     </string-array>
 </resources>

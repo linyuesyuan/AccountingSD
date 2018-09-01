@@ -11,16 +11,16 @@ public class Categories {
 
     int id;
     String title;
+    String fileName;
     Integer color;
     int imageId;
-    byte[] imageData=null;
 
     public Categories() {
     }
 
-    public Categories(String title, byte[] imageData) {
+    public Categories(String title, int imageId) {
         this.title = title;
-        this.imageData = imageData;
+        this.imageId = imageId;
     }
 
     public int getId(){
@@ -29,6 +29,14 @@ public class Categories {
 
     public void setId(int id){
         this.id=id;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getTitle() {
@@ -55,51 +63,6 @@ public class Categories {
         this.imageId=imageId;
     }
 
-    public byte[] getImage() {
-        return this.imageData;
-    }
-
-    public void setImage(byte[] imageData) {
-        this.imageData = imageData;
-    }
-
-    // Bitmap to byte[] to imageData
-    public void setImageDataFromBitmap(Bitmap image) {
-        if (image != null) {
-            //bitmap to byte[]
-            imageData = bitmapToByte(image);
-        } else {
-            imageData = null;
-        }
-    }
-
-    // Bitmap to byte[]
-    public byte[] bitmapToByte(Bitmap bitmap) {
-        try {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            //bitmap to byte[] stream
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] x = stream.toByteArray();
-            //close stream to save memory
-            stream.close();
-            return x;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    // Convert imageData directly to bitmap
-    public Bitmap getImageDataInBitmap() {
-        if (imageData != null) {
-            //turn byte[] to bitmap
-            return BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
-        }
-        return null;
-    }
-
-    public byte[] getImageData() {
-        return imageData;
-    }
 
 }
 

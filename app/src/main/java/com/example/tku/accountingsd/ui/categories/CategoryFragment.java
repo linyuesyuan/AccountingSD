@@ -43,14 +43,11 @@ public class CategoryFragment extends Fragment{
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
+    private CategoriesDBHelper dbHelper;
     private CategoriesAdapter adapter;
 
-    long i;
-    ImageData imageData;
-    List<ImageData> mImageDataList = new LinkedList<>();
 
     ImageView imageView;
-    byte[] getImage ;
 
 
 
@@ -78,7 +75,6 @@ public class CategoryFragment extends Fragment{
         //mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
         mRecyclerView.setHasFixedSize(true);
-        loadImageData();
 
         populateRecyclerView();
         return v;
@@ -92,20 +88,10 @@ public class CategoryFragment extends Fragment{
         getActivity().setTitle("類別編輯");
     }
 
-    private void loadImageData(){
-        String[] imageName = getResources().getStringArray(R.array.image_name);
-        i=1;
-        for(String name:imageName){
-            imageData = new ImageData();
-            imageData.setName(name);
-            imageData.setId(i);
-            mImageDataList.add(imageData);
-            i++;
-        }
-    }
 
     private void populateRecyclerView() {
-        adapter = new CategoriesAdapter(mImageDataList, getActivity(), mRecyclerView);
+        dbHelper = new CategoriesDBHelper(getActivity());
+        adapter = new CategoriesAdapter(dbHelper.categoriesList(), getActivity(), mRecyclerView);
         mRecyclerView.setAdapter(adapter);
     }
 

@@ -19,7 +19,12 @@ import com.example.tku.accountingsd.DBHelper.CategoriesDBHelper;
 import com.example.tku.accountingsd.DBHelper.ImageDBHelper;
 import com.example.tku.accountingsd.DBHelper.NewRecordDBHelper;
 import com.example.tku.accountingsd.R;
+import com.example.tku.accountingsd.model.Categories;
 import com.example.tku.accountingsd.model.Record;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -29,9 +34,11 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
     private Context mContext;
     private RecyclerView mRecyclerV;
     private CategoriesDBHelper categoriesDBHelper;
-    private ImageDBHelper imageDBHelper;
 
-    String TAG = "position";
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
+    StorageReference pathReference;
+    final long ONE_MEGABYTE = 1024 * 1024;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
@@ -79,11 +86,30 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NewRecordAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final NewRecordAdapter.ViewHolder holder, final int position) {
         final Record record = mRecordList.get(position);
-        //categoriesDBHelper = new CategoriesDBHelper(mContext);
-        //byte[] imageByte = categoriesDBHelper.getImage(record.getType());
-        //Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte,0,imageByte.length);
+        categoriesDBHelper = new CategoriesDBHelper(mContext);
+        List<Categories> categoriesList = categoriesDBHelper.categoriesList();
+        int id = (int) record.getType()-1;
+        final Categories categories = categoriesList.get(id);
+
+        pathReference = storageRef.child(categories.getFileName());
+
+        pathReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                if(bytes == null){
+                    Log.d("bytes are null", "!!!!");
+                }
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes , 0 , bytes.length);
+                holder.image.setImageBitmap(bitmap);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.d("load_Failure", exception.getMessage());
+            }
+        });
 
         //holder.image.setImageBitmap(bitmap);
         holder.tvTitle.setText(record.getTitle());

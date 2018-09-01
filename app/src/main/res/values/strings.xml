@@ -21,6 +21,11 @@
     <string name="startDate"> 起始日期：</string>
     <string name="clothes">衣服</string>
     <string name="home_screen">回主畫面</string>
+    <string name="sum">總計</string>
+    <string name="title">名稱：</string>
+    <string name="money">金額：</string>
+    <string name="categories">類別：</string>
+    <string name="setting">設定</string>
 
     <!-- Predefined expense categories -->
     <string name="cat_food">食物</string>
@@ -33,9 +38,25 @@
     <string name="cat_transportation">交通</string>
     <string name="cat_chummage">房租</string>
     <string name="cat_sports">運動</string>
-    <string name="sum">總計</string>
-    <string name="title">名稱：</string>
-    <string name="money">金額：</string>
-    <string name="categories">類別：</string>
-    <string name="setting">設定</string>
+    <string name="cat_couple">情侶</string>
+    <string name="cat_salary">薪水</string>
+    <string name="cat_red_envelope">紅包</string>
+    
+    <string name="image_shopping">shopping.png</string>
+    <string name="image_transportation">交通.png</string>
+    <string name="image_credit_card">信用卡.png</string>
+    <string name="image_pet">寵物.png</string>
+    <string name="image_save">小豬撲滿.png</string>
+    <string name="image_couple">情侶.png</string>
+    <string name="image_cummage">房租.png</string>
+    <string name="image_dessert">甜點.png</string>
+    <string name="image_red_envelope">紅包.png</string>
+    <string name="image_mackups">美妝.png</string>
+    <string name="image_salary">薪水.png</string>
+    <string name="image_clothe">衣2.png</string>
+    <string name="image_transfer">轉帳.png</string>
+    <string name="image_cellphone">電話.png</string>
+    <string name="image_food">食物2.png</string>
+    <string name="image_drink">飲料.png</string>
+    <string name="image_accessories">飾品.png</string>
 </resources>
