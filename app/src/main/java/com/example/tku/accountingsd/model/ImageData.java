@@ -7,7 +7,32 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class ImageData {
+
+    private long id;
     private byte[] imageData = null;
+    private String name;
+
+    public ImageData(){    }
+
+    public long getId(){
+        return id;
+    }
+
+    public void setId(long id){
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setImageDataFromByte(byte[] imageData){
+        this.imageData = imageData;
+    }
 
 
     // Bitmap to byte[] to imageData

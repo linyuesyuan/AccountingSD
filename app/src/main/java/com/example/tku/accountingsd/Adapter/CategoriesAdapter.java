@@ -3,8 +3,15 @@ package com.example.tku.accountingsd.Adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,16 +22,31 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tku.accountingsd.DBHelper.CategoriesDBHelper;
+import com.example.tku.accountingsd.DBHelper.ImageDBHelper;
 import com.example.tku.accountingsd.R;
 import com.example.tku.accountingsd.model.Categories;
+import com.example.tku.accountingsd.model.ImageData;
+import com.example.tku.accountingsd.ui.categories.CategoryEditActivity;
+import com.example.tku.accountingsd.ui.categories.CategoryEditFragment;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder>  {
 
-    private List<Categories> mCategoriesList;
+    private List<ImageData> mCategoriesList;
     private Context mContext;
     private RecyclerView mRecyclerV;
+    private ImageDBHelper imageDBHelper;
+
+
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
+    StorageReference pathReference;
+    final long ONE_MEGABYTE = 1024 * 1024;
 
     String TAG = "id";
 
@@ -42,18 +64,18 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
             mTxt = (TextView) v.findViewById(R.id.txt);
             image = (ImageView) v.findViewById(R.id.image);
             cardView = (CardView)v.findViewById(R.id.cardView);
-            cardView.setCardBackgroundColor(Color.TRANSPARENT);
-
+            cardView.setRadius(50);
         }
 
     }
-
+/*
     public void add(int position, Categories categories) {
         mCategoriesList.add(position, categories);
         notifyItemInserted(position);
     }
+*/
 
-    public CategoriesAdapter(List<Categories> myDataset, Context context, RecyclerView recyclerView) {
+    public CategoriesAdapter(List<ImageData> myDataset, Context context, RecyclerView recyclerView) {
         mCategoriesList = myDataset;
         mContext = context;
         mRecyclerV = recyclerView;
@@ -74,11 +96,31 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CategoriesAdapter.ViewHolder viewHolder, final int position) {
-        final Categories categories = mCategoriesList.get(position);
+    public void onBindViewHolder(@NonNull final CategoriesAdapter.ViewHolder viewHolder, final int position) {
+        //final Categories categories = mCategoriesList.get(position);
+        final ImageData imageData = mCategoriesList.get(position);
+        pathReference = storageRef.child(imageData.getName());
 
-        viewHolder.image.setImageBitmap(categories.getImageDataInBitmap());
+        pathReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                if(bytes == null){
+                    Log.d("bytes are null", "!!!!");
+                }
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes , 0 , bytes.length);
+                viewHolder.image.setImageBitmap(bitmap);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.d("load_Failure", exception.getMessage());
+            }
+        });
+
+
+        /*
         viewHolder.mTxt.setText(categories.getTitle());
+        viewHolder.mTxt.setBackgroundColor(categories.getColor());
 
         //listen to single view layout click
         viewHolder.layout.setOnClickListener(new View.OnClickListener() {
@@ -90,10 +132,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
                 builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
-                        //go to update activity
-
-                    }
+                        }
                 });
                 builder.setNeutralButton("刪除", new DialogInterface.OnClickListener() {
                     @Override
@@ -119,6 +158,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
             }
 
         });
+*/
     }
 
     @Override

@@ -27,16 +27,16 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
 
     private static final String database = "Categories.db";
     private static final int version = 3;
-    public static final String TABLE_NAME = "Categories";
-    public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_TITLE = "title";
+    private static final String TABLE_NAME = "Categories";
+    private static final String COLUMN_ID = "_id";
+    private static final String COLUMN_TITLE = "title";
+    private static final String COLUMN_COLOR = "color";
     private static final String COLUMN_IMAGE_DATA = "image_data";
-
-    String TAG = "mama";
+    //private static final String COLUMN_BOOLEAN = "expense_income";
 
     private Context mContext;
 
-    public CategoriesDBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    private CategoriesDBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
@@ -56,16 +56,19 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
 
 
     private static final class CategoriesTable{
-        public static final String CREATE_TABLE_QUERY =
+        private static final String CREATE_TABLE_QUERY =
                 " CREATE TABLE " + TABLE_NAME + " (" +
                         COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                         COLUMN_TITLE + " TEXT NOT NULL, "+
+                        COLUMN_COLOR + " INTEGER NOT NULL, " +
                         COLUMN_IMAGE_DATA + " BLOB)";
+
+        //COLUMN_BOOLEAN + " INTEGER DEFAULT 0
 
         public static final String DELETE_TABLE_QUERY =
                 "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
-        public static void fillTable(SQLiteDatabase db, Context ctx) {
+        private static void fillTable(SQLiteDatabase db, Context ctx) {
 
 
             ContentValues values = new ContentValues();
@@ -78,12 +81,24 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
             int i =0;
 
             String[] predefinedTitle = ctx.getResources().getStringArray(R.array.predefined_categories);
+            List<Integer> colorArray = new ArrayList<>();
+            colorArray.add(1676170361);
+            colorArray.add(1676189268);
+            colorArray.add(1307109418);
+            colorArray.add(1300228159);
+            colorArray.add(1297410206);
+            colorArray.add(1294657768);
+            colorArray.add(1298774504);
+            colorArray.add(1297372392);
+            colorArray.add(1306028520);
+            colorArray.add(1200000000);
 
             for (String title : predefinedTitle) {
 
                 bitmap = BitmapFactory.decodeResource(ctx.getResources(), imageID.getResourceId(i,0));
                 values.put(COLUMN_IMAGE_DATA,categoriesImage.bitmapToByte(bitmap));
                 values.put(COLUMN_TITLE, title);
+                values.put(COLUMN_COLOR, colorArray.get(i));
                 db.insert(TABLE_NAME,null,values);
                 i++;
             }
@@ -112,15 +127,9 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public List<Categories> categoriesList(String filter) {
-        String query;
-        if (filter.equals("")) {
-            //regular query
-            query = "SELECT  * FROM " + TABLE_NAME;
-        } else {
-            //filter results by filter option provided
-            query = "SELECT  * FROM " + TABLE_NAME + " ORDER BY " + filter;
-        }
+    public List<Categories> categoriesList() {
+        String query = "SELECT  * FROM " + TABLE_NAME;
+
 
         List<Categories> categoriesLinkedList = new LinkedList<>();
         SQLiteDatabase db = this.getWritableDatabase();
@@ -133,6 +142,7 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
 
                 categories.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_ID)));
                 categories.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
+                categories.setColor(cursor.getInt(cursor.getColumnIndex(COLUMN_COLOR)));
                 categories.setImage(cursor.getBlob(cursor.getColumnIndex(COLUMN_IMAGE_DATA)));
                 categoriesLinkedList.add(categories);
             } while (cursor.moveToNext());
@@ -201,11 +211,6 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
                 image = cursor.getBlob((cursor.getColumnIndex(COLUMN_IMAGE_DATA)));
             } while (cursor.moveToNext());
         }
-
-        if(image == null){
-            Log.d(TAG, "image are null");
-        }
-
         cursor.close();
         db.close();
         return image;

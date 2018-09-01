@@ -11,6 +11,8 @@ public class Categories {
 
     int id;
     String title;
+    Integer color;
+    int imageId;
     byte[] imageData=null;
 
     public Categories() {
@@ -35,6 +37,22 @@ public class Categories {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Integer getColor() {
+        return color;
+    }
+
+    public void setColor(Integer color){
+        this.color = color;
+    }
+
+    public int getImageId(){
+        return imageId;
+    }
+
+    public void setImageId(int imageId){
+        this.imageId=imageId;
     }
 
     public byte[] getImage() {

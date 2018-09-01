@@ -3,10 +3,8 @@ package com.example.tku.accountingsd.Adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -18,13 +16,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tku.accountingsd.DBHelper.CategoriesDBHelper;
+import com.example.tku.accountingsd.DBHelper.ImageDBHelper;
 import com.example.tku.accountingsd.DBHelper.NewRecordDBHelper;
 import com.example.tku.accountingsd.R;
-import com.example.tku.accountingsd.model.Categories;
-import com.example.tku.accountingsd.model.ImageData;
 import com.example.tku.accountingsd.model.Record;
-import com.example.tku.accountingsd.ui.newRecord.UpdateRecordActivity;
-import com.example.tku.accountingsd.ui.newRecord.expenseFragment;
 
 import java.util.List;
 
@@ -34,6 +29,7 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
     private Context mContext;
     private RecyclerView mRecyclerV;
     private CategoriesDBHelper categoriesDBHelper;
+    private ImageDBHelper imageDBHelper;
 
     String TAG = "position";
 
@@ -53,8 +49,7 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
             tvMoney = (TextView)v.findViewById(R.id.tvMoney);
             image = (ImageView) v.findViewById(R.id.image);
             cardView = (CardView)v.findViewById(R.id.cardView);
-
-            cardView.setCardBackgroundColor(Color.TRANSPARENT);
+            cardView.setRadius(50);
         }
     }
 
@@ -86,16 +81,11 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
     @Override
     public void onBindViewHolder(@NonNull NewRecordAdapter.ViewHolder holder, final int position) {
         final Record record = mRecordList.get(position);
-        categoriesDBHelper = new CategoriesDBHelper(mContext);
+        //categoriesDBHelper = new CategoriesDBHelper(mContext);
+        //byte[] imageByte = categoriesDBHelper.getImage(record.getType());
+        //Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte,0,imageByte.length);
 
-
-        byte[] imageByte = categoriesDBHelper.getImage(record.getType());
-
-        Log.d(TAG,record.getTitle());
-
-        Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte,0,imageByte.length);
-
-        holder.image.setImageBitmap(bitmap);
+        //holder.image.setImageBitmap(bitmap);
         holder.tvTitle.setText(record.getTitle());
         holder.tvMoney.setText("$" + record.getMoney());
 
