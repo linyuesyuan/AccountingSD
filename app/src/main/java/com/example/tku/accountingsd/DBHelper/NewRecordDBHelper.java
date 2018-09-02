@@ -211,12 +211,18 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
 
         cursor.moveToPosition(-1);
         SparseArray<Float> sumByCategory = new SparseArray<>();
+        float sumOfAll =0f;
+        while (cursor.moveToNext()) {
+            float money = cursor.getFloat(moneyIndex);
+            sumOfAll+=money;
+        }
+        cursor.moveToPosition(-1);
         while (cursor.moveToNext()) {
             int category = cursor.getInt(categoryIndex);
             float money = cursor.getFloat(moneyIndex);
             float old = sumByCategory.get(category, 0f);
-
-            sumByCategory.append(category, old+money);
+            Log.d("sumOfAll", Float.toString(sumOfAll));
+            sumByCategory.append(category, (old+money));
 
         }
         return sumByCategory;

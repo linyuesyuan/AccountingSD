@@ -17,6 +17,7 @@ import android.view.MenuItem;
 
 import com.example.tku.accountingsd.DBHelper.NewRecordDBHelper;
 import com.example.tku.accountingsd.interfaces.IDataLoaderListener;
+import com.example.tku.accountingsd.ui.statistics.PieChartFragment;
 import com.example.tku.accountingsd.ui.statistics.StatisticsFragment;
 import com.example.tku.accountingsd.ui.setting.settingFragment;
 import com.example.tku.accountingsd.ui.categories.CategoryFragment;
@@ -128,6 +129,7 @@ public class MainActivity extends BaseActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        /*
         if (id == R.id.nav_home_screen) {
             getSupportFragmentManager().beginTransaction().replace(R.id.content_main, new homeScreenFragment()).commit();
         } else if (id == R.id.nav_reminder) {
@@ -139,8 +141,19 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_account) {
             getSupportFragmentManager().beginTransaction().replace(R.id.content_main,new settingFragment()).commit();
         } else if (id == R.id.nav_statistics){
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_main,new StatisticsFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main,new PieChartFragment()).commit();
+            //getSupportFragmentManager().beginTransaction().replace(R.id.content_main,new StatisticsFragment()).commit();
         }
+        */
+
+        if (id == R.id.nav_home_screen) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, new homeScreenFragment()).commit();
+        } else if (id == R.id.nav_cateEdit) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, new CategoryFragment()).commit();
+        } else if (id == R.id.nav_statistics) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, new PieChartFragment()).commit();
+        }
+            //
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

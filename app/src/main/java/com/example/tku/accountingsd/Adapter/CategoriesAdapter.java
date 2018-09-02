@@ -122,7 +122,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setTitle("請選擇");
-                builder.setMessage("更新或刪除?");
+                builder.setMessage("是否要刪除?");
                 builder.setNeutralButton("刪除", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

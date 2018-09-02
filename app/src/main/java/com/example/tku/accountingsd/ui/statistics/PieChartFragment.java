@@ -4,9 +4,12 @@ package com.example.tku.accountingsd.ui.statistics;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -95,6 +98,12 @@ public class PieChartFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getActivity().setTitle("財務分析");
+    }
+
     private void populateRecyclerView(){
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -115,6 +124,7 @@ public class PieChartFragment extends Fragment {
         for(int i =0; i<sumOfCategories.size(); i++){
             String categories = categoriesTitle.valueAt(sumOfCategories.keyAt(i)-1);
             float sum = sumOfCategories.valueAt(i);
+            Log.d("sum", Float.toString(sum));
             int color = colorIndex.valueAt(sumOfCategories.keyAt(i)-1);
             colors.add(color);
             entries.add(new PieEntry(sum, categories));
@@ -122,6 +132,7 @@ public class PieChartFragment extends Fragment {
         PieDataSet set = new PieDataSet(entries, null);
         set.setColors(colors);
         PieData data = new PieData(set);
+        data.setValueTextSize(20f);
         mPieChart.setData(data);
         mPieChart.invalidate();// refresh
     }
