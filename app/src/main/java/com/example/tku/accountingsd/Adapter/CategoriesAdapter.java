@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.tku.accountingsd.DBHelper.CategoriesDBHelper;
 import com.example.tku.accountingsd.R;
 import com.example.tku.accountingsd.model.Categories;
 import com.example.tku.accountingsd.model.ImageData;
@@ -111,16 +112,10 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
             }
         });
 
-        if(categories.getType()==1){
-            //viewHolder.cardView.setCardBackgroundColor(1297410206);
-            viewHolder.cardView.setBackgroundColor(1297410206);
-            //viewHolder.cardView.setRadius(50);
-        }
-
 
         viewHolder.mTxt.setText(categories.getTitle());
         viewHolder.mTxt.setBackgroundColor(categories.getColor());
-/*
+
         //listen to single view layout click
         viewHolder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,17 +123,11 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setTitle("請選擇");
                 builder.setMessage("更新或刪除?");
-                builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        }
-                });
                 builder.setNeutralButton("刪除", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         CategoriesDBHelper dbHelper = new CategoriesDBHelper(mContext);
                         dbHelper.deleteCategories(categories.getId(), mContext);
-                        Log.d(TAG, Integer.toString(categories.getId()));
 
                         mCategoriesList.remove(position);
                         mRecyclerV.removeViewAt(position);
@@ -157,7 +146,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
             }
 
         });
-*/
+
     }
 
     @Override

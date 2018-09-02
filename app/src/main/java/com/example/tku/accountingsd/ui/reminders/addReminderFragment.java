@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +33,7 @@ public class addReminderFragment extends BaseFragment implements DatePickerDialo
     private TextView tvReminderDatePicker;
     private EditText etDateCycle;
     private EditText etMoney;
-    private Button btCreateReminder;
+    private ImageButton btCreateReminder;
 
     private ReminderDBHelper dbHelper;
 
@@ -45,7 +46,7 @@ public class addReminderFragment extends BaseFragment implements DatePickerDialo
         tvReminderDatePicker = (TextView) rootView.findViewById(R.id.tvReminderDatePicker);
         etDateCycle = (EditText) rootView.findViewById(R.id.etDateCycle);
         etMoney = (EditText) rootView.findViewById(R.id.etMoney);
-        btCreateReminder = (Button) rootView.findViewById(R.id.btCreateReminder);
+        btCreateReminder = (ImageButton) rootView.findViewById(R.id.btCreateReminder);
 
         setCurrentDay();
 

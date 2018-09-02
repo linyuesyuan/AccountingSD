@@ -121,23 +121,12 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setTitle("請選擇");
                 builder.setMessage("更新或刪除?");
-                /*
-                builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
 
-                        //go to update activity
-
-                    }
-                });
-                */
                 builder.setNeutralButton("刪除", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         NewRecordDBHelper dbHelper = new NewRecordDBHelper(mContext);
                         dbHelper.deleteRecord(record.getId(), mContext);
-
-
 
                         mRecordList.remove(position);
                         mRecyclerV.removeViewAt(position);

@@ -116,6 +116,9 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_TITLE, categories.getTitle());
+        values.put(COLUMN_FILE_NAME, categories.getFileName());
+        values.put(COLUMN_COLOR, categories.getColor());
+        values.put(COLUMN_BOOLEAN, categories.getType());
 
         // insert
         db.insert(TABLE_NAME, null, values);

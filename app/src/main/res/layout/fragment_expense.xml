@@ -47,8 +47,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="5"
-                            android:text="@string/title"
-                            android:textSize="20sp" />
+                            android:text="@string/title" />
 
                         <EditText
                             android:id="@+id/etTitle"
@@ -71,8 +70,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="5"
-                            android:text="@string/money"
-                            android:textSize="20sp" />
+                            android:text="@string/money" />
 
                         <EditText
                             android:id="@+id/etMoney"
@@ -94,7 +92,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="5"
-                            android:textSize="20sp"
                             android:text="@string/categories" />
 
                         <Spinner

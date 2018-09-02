@@ -9,14 +9,15 @@ public class Categories {
     String fileName;
     Integer color;
     int type;
-    int imageId;
 
     public Categories() {
     }
 
-    public Categories(String title, int imageId) {
+    public Categories(String title, String fileName, Integer color, int type) {
         this.title = title;
-        this.imageId = imageId;
+        this.fileName = fileName;
+        this.color = color;
+        this.type = type;
     }
 
     public int getId(){
@@ -58,15 +59,6 @@ public class Categories {
     public void setType(int type) {
         this.type = type;
     }
-
-    public int getImageId(){
-        return imageId;
-    }
-
-    public void setImageId(int imageId){
-        this.imageId=imageId;
-    }
-
 
 }
 

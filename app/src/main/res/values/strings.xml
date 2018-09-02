@@ -26,6 +26,13 @@
     <string name="money">金額：</string>
     <string name="categories">類別：</string>
     <string name="setting">設定</string>
+    <string name="eventTitle">標題：</string>
+    <string name="eventDesc">說明：</string>
+    <string name="eventAttendee">邀請對象：</string>
+    <string name="eventLocation">地點：</string>
+    <string name="eventStart">開始時間：</string>
+    <string name="eventEnd">結束時間：</string>
+    <string name="createEventStart">開始時間：</string>
 
     <!-- Predefined expense categories -->
     <string name="cat_food">食物</string>
@@ -59,4 +66,9 @@
     <string name="image_food">食物2.png</string>
     <string name="image_drink">飲料.png</string>
     <string name="image_accessories">飾品.png</string>
+    <string name="createEventAttendee">參與對象</string>
+    <string name="createEventLocation">地點</string>
+    <string name="createEventDesc">說明</string>
+    <string name="createEventTitle">標題</string>
+    <string name="createEventEnd">結束時間</string>
 </resources>
