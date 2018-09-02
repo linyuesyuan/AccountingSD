@@ -74,15 +74,12 @@ public class CategoriesPickerAdapter extends RecyclerView.Adapter<CategoriesPick
                     if(mSelectedItem!=RecyclerView.NO_POSITION){
                         ImageData clickDataItem = mImageDataList.get(mSelectedItem);
                         fileName = clickDataItem.getName();
-                        Toast.makeText(v.getContext(), "You clicked " + clickDataItem.getName(), Toast.LENGTH_SHORT).show();
                         mCallback.onClick(clickDataItem.getName());
                         CategoryEditFragment categoryEditFragment=new CategoryEditFragment();
                         Bundle bundle=new Bundle();
                         bundle.putString("fileName", fileName);
                         categoryEditFragment.setArguments(bundle);
-                        String test = bundle.getString("fileName");
 
-                        Log.d("fileName", test);
                     }
                 }
             };

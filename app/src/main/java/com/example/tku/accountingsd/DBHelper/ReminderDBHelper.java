@@ -17,12 +17,12 @@ public class ReminderDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Reminder.db";
     private static final int DATABASE_VERSION = 3;
-    public static final String TABLE_NAME = "Reminder";
-    public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_TITLE = "title";
-    public static final String COLUMN_START_DATE = "startDate";
-    public static final String COLUMN_DATE_CYCLE = "dateCycle";
-    public static final String COLUMN_MONEY = "money";
+    private static final String TABLE_NAME = "Reminder";
+    private static final String COLUMN_ID = "_id";
+    private static final String COLUMN_TITLE = "title";
+    private static final String COLUMN_START_DATE = "startDate";
+    private static final String COLUMN_DATE_CYCLE = "dateCycle";
+    private static final String COLUMN_MONEY = "money";
 
     public ReminderDBHelper(Context context) {
         super(context, DATABASE_NAME , null, DATABASE_VERSION);

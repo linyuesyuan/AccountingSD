@@ -26,12 +26,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tku.accountingsd.Adapter.NewRecordAdapter;
+import com.example.tku.accountingsd.BaseFragment;
 import com.example.tku.accountingsd.DBHelper.CategoriesDBHelper;
 import com.example.tku.accountingsd.DBHelper.NewRecordDBHelper;
 import com.example.tku.accountingsd.R;
 import com.example.tku.accountingsd.model.Categories;
 import com.example.tku.accountingsd.model.Record;
 import com.example.tku.accountingsd.ui.DialogManager;
+import com.example.tku.accountingsd.ui.homeScreen.homeScreenFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,7 +45,7 @@ import java.util.function.DoubleToIntFunction;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class expenseFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class expenseFragment extends BaseFragment implements AdapterView.OnItemSelectedListener {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -52,7 +54,7 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
     private String filter = "";
 
     private EditText etTitle;
-    private TextView tvDatePicker;
+    private Button btDatePicker;
     private EditText etMoney;
     private Spinner spinner;
     private Button btCreateRecord;
@@ -86,7 +88,7 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
         View v = inflater.inflate(R.layout.fragment_expense, container, false);
         findViewById(v);
         loadSpinnerData();
-        tvDatePicker.setOnClickListener(new View.OnClickListener() {
+        btDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showDateDialog();
@@ -123,7 +125,7 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
 
     private void findViewById(View v){
         etTitle = (EditText) v.findViewById(R.id.etTitle);
-        tvDatePicker = (TextView) v.findViewById(R.id.tvDatePicker);
+        btDatePicker = (Button) v.findViewById(R.id.btDatePicker);
         etMoney = (EditText) v.findViewById(R.id.etMoney);
         spinner = (Spinner) v.findViewById(R.id.spinner);
         btCreateRecord = (Button) v.findViewById(R.id.btCreateRecord);
@@ -137,7 +139,7 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
         dateMilliSecond = c.getTimeInMillis();
         Date date = new Date(dateMilliSecond);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd ");
-        tvDatePicker.setText(dateFormat.format(date));
+        btDatePicker.setText(dateFormat.format(date));
         loadSum();
     }
 
@@ -150,7 +152,7 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
     private void saveExpense() {
         CategoriesDBHelper categoriesDBHelper = new CategoriesDBHelper(getActivity());
         String title = etTitle.getText().toString().trim();
-        String date = tvDatePicker.getText().toString().trim();
+        String date = btDatePicker.getText().toString().trim();
         Float money = Float.parseFloat(etMoney.getText().toString().trim());
         String categories = spinner.getSelectedItem().toString().trim();
         int categoriesIndex = categoriesTitleIdArray.indexOfValue(categories)+1;
@@ -184,7 +186,7 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
 
     private void populateRecyclerView(String filter) {
         dbHelper = new NewRecordDBHelper(getActivity());
-        adapter = new NewRecordAdapter(dbHelper.recordList(filter, tvDatePicker.getText().toString().trim()), getActivity(), mRecyclerView);
+        adapter = new NewRecordAdapter(dbHelper.recordList(filter, btDatePicker.getText().toString().trim()), getActivity(), mRecyclerView);
         //Log.d("dateSelected", dateSelected);
         mRecyclerView.setAdapter(adapter);
     }
@@ -201,7 +203,7 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
                 dateMilliSecond = c.getTimeInMillis();
                 Date date = new Date(dateMilliSecond);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd ");
-                tvDatePicker.setText(dateFormat.format(date));
+                btDatePicker.setText(dateFormat.format(date));
                 populateRecyclerView(filter);
                 loadSum();
             }
@@ -222,7 +224,7 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
 
     public void loadSum(){
         NewRecordDBHelper dbHelper = new NewRecordDBHelper(getActivity());
-        List<Double> expense = dbHelper.getSum(tvDatePicker.getText().toString().trim());
+        List<Double> expense = dbHelper.getSum(btDatePicker.getText().toString().trim());
         double sum=0.0;
         for(int i = 0; i<expense.size(); i++){
             sum += expense.get(i);
@@ -244,5 +246,10 @@ public class expenseFragment extends Fragment implements AdapterView.OnItemSelec
 
     @Override
     public void onNothingSelected(AdapterView<?> arg0) {
+    }
+
+    @Override
+    public void onBackPressed(){
+        getFragmentManager().beginTransaction().replace(R.id.content_main, new homeScreenFragment()).commit();
     }
 }

@@ -22,12 +22,12 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
 
     private static final String database = "NewRecord.db";
     private static final int version = 3;
-    public static final String TABLE_NAME = "NewRecord";
-    public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_DATE = "date";
-    public static final String COLUMN_TYPE = "type";
-    public static final String COLUMN_TITLE = "title";
-    public static final String COLUMN_MONEY = "money";
+    private static final String TABLE_NAME = "NewRecord";
+    private static final String COLUMN_ID = "_id";
+    private static final String COLUMN_DATE = "date";
+    private static final String COLUMN_TYPE = "type";
+    private static final String COLUMN_TITLE = "title";
+    private static final String COLUMN_MONEY = "money";
     private static final String COLUMN_BOOLEAN = "expense_income";
 
     public NewRecordDBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -152,11 +152,14 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);//selectQuery,selectedArguments
+        int length = cursor.getCount();
+        Log.d("expense_length", Double.toString(length));
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
                 double data = cursor.getDouble(cursor.getColumnIndex(COLUMN_MONEY));
+                Log.d("expense_data", Double.toString(data));
                 int boo = cursor.getInt(cursor.getColumnIndex(COLUMN_BOOLEAN));
                 if(boo != 0){
                     expense.add(data);
@@ -198,23 +201,6 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
         Toast.makeText(context, "Deleted successfully.", Toast.LENGTH_SHORT).show();
     }
 
-    public SparseArray<Float> peiChartData(){
-        SparseArray<Float> sumByCategory = new SparseArray<>();
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME;
-        Cursor cursor = db.rawQuery(query,null);
-        int moneyIndex = cursor.getColumnIndex(COLUMN_MONEY);
-        //int dateIndex = cursor.getColumnIndex(COLUMN_DATE);
-        int categoryIndex = cursor.getColumnIndex(COLUMN_TYPE);
-        if (cursor.moveToFirst()) {
-            do {
-                float money = cursor.getFloat(moneyIndex);
-
-            } while (cursor.moveToNext());
-        }
-        return  sumByCategory;
-    }
-
     public SparseArray<Float> loadPeiChartData(){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME;
@@ -234,6 +220,35 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
 
         }
         return sumByCategory;
+    }
+
+    public  List<Double>  getDataByMonth(String month){
+        List<Double> expense = new ArrayList<Double>();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE strftime('%m', "+ COLUMN_DATE + ") = '" + month + "'";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        Log.d("selectQuery", selectQuery);
+        Log.d("month" , month);
+        int i =cursor.getCount();
+        if (cursor.moveToFirst()) {
+            do {
+                double data = cursor.getDouble(cursor.getColumnIndex(COLUMN_MONEY));
+                Log.d("expense_data", Double.toString(data));
+                int boo = cursor.getInt(cursor.getColumnIndex(COLUMN_BOOLEAN));
+                if(boo != 0){
+                    expense.add(data);
+                }else {
+                    expense.add(0-data);
+                }
+            } while (cursor.moveToNext());
+        }
+        Log.d("debug sqlite", Integer.toString(i));
+        cursor.close();
+        db.close();
+
+        return expense;
     }
 
 }

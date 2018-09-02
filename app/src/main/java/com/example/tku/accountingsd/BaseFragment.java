@@ -8,8 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tku.accountingsd.interfaces.IFragmentListener;
+import com.example.tku.accountingsd.interfaces.OnBackPressed;
 
-public class BaseFragment extends Fragment {
+public class BaseFragment extends Fragment implements OnBackPressed {
 
     protected IFragmentListener mFragmentListener;
 
@@ -29,4 +30,8 @@ public class BaseFragment extends Fragment {
         mFragmentListener = null;
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
 }

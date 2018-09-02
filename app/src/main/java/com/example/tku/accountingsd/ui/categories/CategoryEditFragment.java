@@ -19,6 +19,7 @@ import android.widget.RadioGroup;
 
 import com.example.tku.accountingsd.Adapter.CategoriesAdapter;
 import com.example.tku.accountingsd.Adapter.CategoriesPickerAdapter;
+import com.example.tku.accountingsd.BaseFragment;
 import com.example.tku.accountingsd.DBHelper.CategoriesDBHelper;
 import com.example.tku.accountingsd.R;
 import com.example.tku.accountingsd.model.Categories;
@@ -34,7 +35,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CategoryEditFragment extends Fragment implements CategoriesPickerAdapter.OnItemClick{
+public class CategoryEditFragment extends BaseFragment implements CategoriesPickerAdapter.OnItemClick{
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -160,5 +161,10 @@ public class CategoryEditFragment extends Fragment implements CategoriesPickerAd
     @Override
     public void onClick(String value) {
         imageFile = value;
+    }
+
+    @Override
+    public void onBackPressed(){
+        getFragmentManager().beginTransaction().replace(R.id.content_main, new CategoryFragment()).commit();
     }
 }

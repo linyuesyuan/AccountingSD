@@ -26,7 +26,7 @@
         </activity>
         <activity android:name=".ui.reminders.addReminderActivity" />
         <activity android:name=".ui.reminders.UpdateReminderActivity" />
-        <activity android:name=".ui.newRecord.UpdateRecordActivity"></activity>
+
         <meta-data
             android:name="com.google.android.gms.version"
         android:value="@integer/google_play_services_version" />

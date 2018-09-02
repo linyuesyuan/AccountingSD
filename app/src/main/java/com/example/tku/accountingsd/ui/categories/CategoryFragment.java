@@ -14,13 +14,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.tku.accountingsd.Adapter.CategoriesAdapter;
+import com.example.tku.accountingsd.BaseFragment;
 import com.example.tku.accountingsd.DBHelper.CategoriesDBHelper;
 import com.example.tku.accountingsd.R;
+import com.example.tku.accountingsd.ui.homeScreen.homeScreenFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CategoryFragment extends Fragment{
+public class CategoryFragment extends BaseFragment{
 
     FloatingActionButton floatingActionButton;
 
@@ -77,5 +79,8 @@ public class CategoryFragment extends Fragment{
         adapter = new CategoriesAdapter(dbHelper.categoriesList(), getActivity(), mRecyclerView);
         mRecyclerView.setAdapter(adapter);
     }
-
+    @Override
+    public void onBackPressed(){
+        getFragmentManager().beginTransaction().replace(R.id.content_main, new homeScreenFragment()).commit();
+    }
 }

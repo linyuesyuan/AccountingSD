@@ -61,6 +61,7 @@ public class PieChartFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_pie_chart, container, false);
         mPieChart = (PieChart)v.findViewById(R.id.pieChart);
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
+        /*
         bt_fromDate = (Button) v.findViewById(R.id.bt_fromDate);
         bt_toDate = (Button) v.findViewById(R.id.bt_toDate);
 
@@ -75,6 +76,7 @@ public class PieChartFragment extends Fragment {
 
         setFirstOfMonth();
         setLastOfMonth();
+        */
         fillChart();
 
         mPieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
