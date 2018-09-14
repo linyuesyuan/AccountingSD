@@ -30,12 +30,12 @@
 
                     <Button
                         android:id="@+id/btDatePicker"
-                        android:layout_width="wrap_content"
+                        android:layout_width="140dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textSize="20sp"
-                        android:background="#E4E7FD"
-                        android:layout_margin="10dp"/>
+                        android:layout_margin="10dp"
+                        android:background="@drawable/button_bg_rounded_corners"
+                        android:textSize="20sp" />
 <!--
                     <TextView
                         android:id="@+id/tvDatePicker"
@@ -147,7 +147,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
-            android:layerType="software">
+            android:layerType="software"
+            android:background="#FFFFFF">
 
             <TextView
                 android:id="@+id/textView3"

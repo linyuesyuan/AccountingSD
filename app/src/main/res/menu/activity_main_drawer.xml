@@ -22,7 +22,6 @@
             android:id="@+id/nav_depositTarget"
             android:icon="@drawable/ic_menu_target"
             android:title="@string/depositTarget" />
-
 -->
         <item
             android:id="@+id/nav_statistics"

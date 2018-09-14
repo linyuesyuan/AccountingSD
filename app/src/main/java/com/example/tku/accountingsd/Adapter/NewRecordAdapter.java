@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -55,7 +56,7 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
             tvMoney = (TextView)v.findViewById(R.id.tvMoney);
             image = (ImageView) v.findViewById(R.id.image);
             cardView = (CardView)v.findViewById(R.id.cardView);
-            cardView.setRadius(50);
+            cardView.setCardBackgroundColor(Color.TRANSPARENT);
         }
     }
 
@@ -98,7 +99,6 @@ public class NewRecordAdapter extends RecyclerView.Adapter<NewRecordAdapter.View
             @Override
             public void onSuccess(byte[] bytes) {
                 if(bytes == null){
-                    Log.d("bytes are null", "!!!!");
                 }
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes , 0 , bytes.length);
                 holder.image.setImageBitmap(bitmap);

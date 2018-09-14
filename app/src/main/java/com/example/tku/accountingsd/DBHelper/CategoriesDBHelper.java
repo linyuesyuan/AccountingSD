@@ -2,14 +2,9 @@ package com.example.tku.accountingsd.DBHelper;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.util.SparseArray;
 import android.widget.Toast;
@@ -172,9 +167,8 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.execSQL("DELETE FROM "+TABLE_NAME+" WHERE _id='"+id+"'");
-        Toast.makeText(context, "Deleted successfully.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "刪除成功", Toast.LENGTH_SHORT).show();
         db.close();
-
     }
 
     public SparseArray<String> getAllTitle(){

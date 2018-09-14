@@ -40,15 +40,7 @@ public class homeScreenFragment extends Fragment {
             }
         });
         loadSum();
-        Bundle arguments = getArguments();
-        if (arguments!=null){
-            int expectSave= arguments.getInt("expectSave");
-            Log.d("expectSave", Integer.toString(expectSave));
-            tvSum.setText(Integer.toString(expectSave));
-        }else {
-            Log.d("null", "!!!!!!!!!!!!!!!!!");
 
-        }
 
         return rootView;
     }
@@ -56,7 +48,7 @@ public class homeScreenFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle("主頁");
+        getActivity().setTitle("一起記帳趣！");
     }
 
 

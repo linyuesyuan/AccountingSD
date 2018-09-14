@@ -1,7 +1,6 @@
 package com.example.tku.accountingsd;
 
-import android.content.Intent;
-import android.database.Cursor;
+
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -9,32 +8,17 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.tku.accountingsd.DBHelper.NewRecordDBHelper;
-import com.example.tku.accountingsd.interfaces.IDataLoaderListener;
 import com.example.tku.accountingsd.ui.statistics.PieChartFragment;
-import com.example.tku.accountingsd.ui.statistics.StatisticsFragment;
-import com.example.tku.accountingsd.ui.setting.settingFragment;
 import com.example.tku.accountingsd.ui.categories.CategoryFragment;
-import com.example.tku.accountingsd.ui.depositTarget.depositTargetFragment;
 import com.example.tku.accountingsd.ui.homeScreen.homeScreenFragment;
-import com.example.tku.accountingsd.ui.reminders.reminderFragment;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.google.firebase.storage.FirebaseStorage;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -129,7 +113,7 @@ public class MainActivity extends BaseActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        /*
+/*
         if (id == R.id.nav_home_screen) {
             getSupportFragmentManager().beginTransaction().replace(R.id.content_main, new homeScreenFragment()).commit();
         } else if (id == R.id.nav_reminder) {

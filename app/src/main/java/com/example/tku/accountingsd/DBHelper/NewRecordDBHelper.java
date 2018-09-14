@@ -198,7 +198,7 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.execSQL("DELETE FROM "+TABLE_NAME+" WHERE _id='"+id+"'");
-        Toast.makeText(context, "Deleted successfully.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "刪除成功", Toast.LENGTH_SHORT).show();
     }
 
     public SparseArray<Float> loadPeiChartData(){
@@ -206,7 +206,6 @@ public class NewRecordDBHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + TABLE_NAME;
         Cursor cursor = db.rawQuery(query,null);
         int categoryIndex = cursor.getColumnIndex(NewRecordDBHelper.COLUMN_TYPE);
-        //int dateIndex = cursor.getColumnIndex(ExpensesContract.ExpensesEntry.COLUMN_DATE);
         int moneyIndex = cursor.getColumnIndex(NewRecordDBHelper.COLUMN_MONEY);
 
         cursor.moveToPosition(-1);

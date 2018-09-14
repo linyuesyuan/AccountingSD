@@ -37,8 +37,8 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1.5"
                 android:text="Title"
-                android:textSize="25sp"
-                android:layout_margin="10dp"/>
+                android:textSize="20sp"
+                android:layout_margin="20dp"/>
 
             <TextView
                 android:id="@+id/tvMoney"
@@ -47,8 +47,8 @@
                 android:layout_weight="1.5"
                 android:gravity="right"
                 android:text="Money"
-                android:textSize="25sp"
-                android:layout_margin="10dp"/>
+                android:textSize="20sp"
+                android:layout_margin="20dp"/>
 
         </LinearLayout>
 
